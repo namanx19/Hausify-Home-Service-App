@@ -13,17 +13,24 @@ class urbanserv extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        textTheme: Theme.of(context).textTheme.apply(
-          bodyColor: Colors.black,
-          fontFamily: 'Montserrat',
+    return SafeArea(
+      child: MaterialApp(
+        title: 'Login App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          textTheme: Theme.of(context).textTheme.apply(
+            bodyColor: Colors.black,
+            fontFamily: 'Montserrat',
+          ),
         ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => OnboardingScreen(),
+          '/loginScreen': (context) => LoginScreen(),
+          '/registrationScreen': (context) => RegistrationScreen(),
+      },
       ),
-      home: LoginScreen(),
     );
   }
 }

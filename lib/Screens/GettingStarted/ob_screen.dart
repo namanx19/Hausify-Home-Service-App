@@ -89,6 +89,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   // The "Get Started" button
                   ElevatedButton(
                     onPressed: () {
+                      Navigator.pushNamed(context, '/loginScreen');
                       // Navigate to the home screen
                     },
                     style: ElevatedButton.styleFrom(
