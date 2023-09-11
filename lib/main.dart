@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:urbanserv/Screens/GettingStarted/login_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/ob_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/registration_screen.dart';
+import 'package:urbanserv/Screens/home_screen.dart';
 import 'utils/constants.dart';
+import 'package:urbanserv/Screens/start.dart';
 
 void main() {
   runApp(const urbanserv());
@@ -24,11 +26,13 @@ class urbanserv extends StatelessWidget {
             fontFamily: 'Montserrat',
           ),
         ),
-        initialRoute: '/',
+        initialRoute: '/start',
         routes: {
           '/': (context) => OnboardingScreen(),
+          '/start' : (context) => StartPage(),
           '/loginScreen': (context) => LoginScreen(),
           '/registrationScreen': (context) => RegistrationScreen(),
+          '/homescreen': (context) => HomeScreen(),
       },
       ),
     );
