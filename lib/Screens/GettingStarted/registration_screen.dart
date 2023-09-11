@@ -179,6 +179,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         // Perform registration functionality
+                        Navigator.pushNamed(context, '/start');
                       }
                     },
                     child: const Text('Register'),

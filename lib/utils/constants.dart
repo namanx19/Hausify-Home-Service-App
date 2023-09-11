@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const apiKey = 'API KEY';
+
 const kIconColor = Color(0xff040D12);
 const kBackgroundColor = Color(0xff183D3D);
 const kPrimaryColor = Color(0xff5C8374);

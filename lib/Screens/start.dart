@@ -1,8 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:urbanserv/utils/service.dart';
 import 'dart:async';
 import 'dart:math';
 import 'package:ionicons/ionicons.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
+import 'package:urbanserv/utils/constants.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({ Key? key }) : super(key: key);
@@ -25,6 +32,64 @@ class _StartPageState extends State<StartPage> {
   ];
 
   int selectedService = 4;
+  
+  double? latitude;
+  double? longitude;
+  
+  void getLocationData() async {
+    var status = await Permission.location.request();
+    if (status.isGranted) {
+      try {
+        Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        latitude = position.latitude;
+        longitude = position.longitude;
+        getData();
+      } catch (e) {
+        // Handle any errors that may occur while getting the location.
+        print('Error getting location: $e');
+      }
+    } else if (status.isDenied) {
+      // The user denied permission, you can show a dialog or message explaining why location access is needed.
+      // You can also provide a button to open app settings.
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Location Permission'),
+            content: const Text('To use this feature, please grant location access in the app settings.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  // Open app settings
+                  openAppSettings();
+                },
+                child: const Text('Open Settings'),
+              ),
+            ],
+          );
+        },
+      );
+    } else if (status.isPermanentlyDenied) {
+      // The user permanently denied permission, typically by selecting "Never ask again" in the permission dialog.
+      // You can prompt the user to go to settings and enable the permission.
+      print('Location permission is permanently denied. You can prompt the user to enable it in settings.');
+    }
+  }
+
+  void getData() async {
+    Uri url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey');
+    Response response = await get(url);
+    String data = response.body;
+    var decodedData = jsonDecode(data);
+    var cityName = decodedData['name'];
+    if(response.statusCode == 200){
+      print(cityName);
+    }
+    else{
+      print(response.statusCode);
+    }
+  }
+
 
   @override
   void initState() {
@@ -66,10 +131,12 @@ class _StartPageState extends State<StartPage> {
           const SizedBox(height: 16),
           ElevatedButton.icon(
             onPressed: () {
+              getLocationData();
+              getData();
               // Handle button press
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.green,
+              backgroundColor: Colors.green,
               // Set button color to orange
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50.0), // Set rounded corners
