@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomeScreen(),
+    );
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -7,71 +20,128 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Color> boxColors = List.generate(9, (index) => Colors.grey.shade300);
-  int selectedIndex = -1;
-  Random random = Random();
+  // Initialize variables for selected tab and location.
+  int _selectedIndex = 0;
+  String _location = "Your Location";
 
-  void selectRandomBox() {
-    int randomIndex;
+  // Define a list of fragment widgets.
+  final List<Widget> _fragments = [
+    // Replace one of these with the given code.
+    Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          margin: const EdgeInsets.all(25.0),
+          color: Colors.transparent,
+          child: GridView.count(
+            crossAxisCount: 3,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: List.generate(9, (index) {
+              return Container(
+                margin: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                  //color: boxColors[index],
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    //color: index == selectedIndex ? Colors.blue : Colors.transparent,
+                    width: 2.0,
+                  ),
+                ),
+              );
+            }),
+          ),
+        ),
+      ],
+    ),
+    const Placeholder(),
 
-    do {
-      randomIndex = random.nextInt(9);
-    } while (randomIndex == selectedIndex);
+    const Placeholder(),
 
+    const Placeholder(),
+    const Placeholder(),
+  ];
+
+  // Function to update the selected tab.
+  void _onTabTapped(int index) {
     setState(() {
-      if (selectedIndex != -1) {
-        boxColors[selectedIndex] = Colors.grey; // Reset previous box
-      }
-      boxColors[randomIndex] = Colors.lightBlue; // Highlight the new box
-      selectedIndex = randomIndex;
-    });
-
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        boxColors[randomIndex] = Colors.grey; // Reset the highlighted box after 2 seconds
-      });
+      _selectedIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: const EdgeInsets.all(25.0),
-              color: Colors.transparent,
-              child: GridView.count(
-                crossAxisCount: 3,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: List.generate(9, (index) {
-                  return Container(
-                    margin: const EdgeInsets.all(5.0),
-                    padding: const EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                      color: boxColors[index],
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: index == selectedIndex ? Colors.blue : Colors.transparent,
-                        width: 2.0,
-                      ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            //color: Colors.green,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.location_on,
+                    color: Colors.green,
+                  ),
+                  onPressed: () {
+                    // Implement location fetching here.
+                    setState(() {
+                      _location = "New Location"; // Update location here.
+                    });
+                  },
+                ),
+                Text(
+                  "Location: $_location",
+                  style: const TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+                IconButton(
+                    onPressed: (){
+
+                    },
+                    icon: const Icon(
+                      Icons.search,
+                      color: Colors.black,
+
                     ),
-                  );
-                }),
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: _fragments[_selectedIndex],
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onTabTapped,
+        backgroundColor: Colors.green,
+        selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.black.withOpacity(0.6),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: "Cart",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Profile",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.category),
+            label: "Categories",
+          ),
+        ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    selectedIndex = -1; // Reset the selected index when the widget is disposed
   }
 }

@@ -10,6 +10,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:urbanserv/utils/constants.dart';
+import 'package:geocoding/geocoding.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({ Key? key }) : super(key: key);
@@ -35,61 +36,59 @@ class _StartPageState extends State<StartPage> {
   
   double? latitude;
   double? longitude;
-  
-  void getLocationData() async {
-    var status = await Permission.location.request();
-    if (status.isGranted) {
-      try {
-        Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-        latitude = position.latitude;
-        longitude = position.longitude;
-        getData();
-      } catch (e) {
-        // Handle any errors that may occur while getting the location.
-        print('Error getting location: $e');
+  String? _currentAddress;
+  Position? _currentPosition;
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
       }
-    } else if (status.isDenied) {
-      // The user denied permission, you can show a dialog or message explaining why location access is needed.
-      // You can also provide a button to open app settings.
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Location Permission'),
-            content: const Text('To use this feature, please grant location access in the app settings.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  // Open app settings
-                  openAppSettings();
-                },
-                child: const Text('Open Settings'),
-              ),
-            ],
-          );
-        },
-      );
-    } else if (status.isPermanentlyDenied) {
-      // The user permanently denied permission, typically by selecting "Never ask again" in the permission dialog.
-      // You can prompt the user to go to settings and enable the permission.
-      print('Location permission is permanently denied. You can prompt the user to enable it in settings.');
     }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return true;
   }
 
-  void getData() async {
-    Uri url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey');
-    Response response = await get(url);
-    String data = response.body;
-    var decodedData = jsonDecode(data);
-    var cityName = decodedData['name'];
-    if(response.statusCode == 200){
-      print(cityName);
-    }
-    else{
-      print(response.statusCode);
-    }
-  }
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
 
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) async {
+      setState(() => _currentPosition = position);
+
+      try {
+        List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+        if (placemarks.isNotEmpty) {
+          Placemark placemark = placemarks[0];
+          _currentAddress = "${placemark.locality}, ${placemark.administrativeArea}";
+          print("City: ${placemark.locality}");
+          print("Address: ${placemark.subLocality}");
+        }
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    }).catchError((e) {
+      debugPrint(e.toString());
+    });
+  }
 
   @override
   void initState() {
@@ -107,7 +106,7 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center, // Center the contents vertically
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 100),
           Container(
@@ -131,9 +130,7 @@ class _StartPageState extends State<StartPage> {
           const SizedBox(height: 16),
           ElevatedButton.icon(
             onPressed: () {
-              getLocationData();
-              getData();
-              // Handle button press
+              _getCurrentPosition();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
