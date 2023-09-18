@@ -5,6 +5,7 @@ import 'package:urbanserv/Screens/GettingStarted/registration_screen.dart';
 import 'package:urbanserv/Screens/home_screen.dart';
 //import 'utils/constants.dart';
 import 'package:urbanserv/Screens/start.dart';
+import 'package:urbanserv/utils/constants.dart';
 
 void main() {
   runApp(const urbanserv());
@@ -23,13 +24,13 @@ class urbanserv extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           textTheme: Theme.of(context).textTheme.apply(
             bodyColor: Colors.black,
-            fontFamily: 'Montserrat',
+            fontFamily: 'BoldHeading',
           ),
         ),
-        initialRoute: '/homescreen',
+        initialRoute: '/start',
         routes: {
-          '/': (context) => OnboardingScreen(),
-          '/start' : (context) => StartPage(),
+          '/': (context) => const OnboardingScreen(),
+          '/start' : (context) => const StartPage(),
           '/loginScreen': (context) => LoginScreen(),
           '/registrationScreen': (context) => RegistrationScreen(),
           '/homescreen': (context) => HomeScreen(),

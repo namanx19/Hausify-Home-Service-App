@@ -63,6 +63,16 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+
+  fonts:
+    - family: BoldHeading
+      fonts:
+        - asset: fonts/Project/Montserrat-Regular.ttf
+
+    - family: LightContent
+      fonts:
+        - asset: fonts/Project/Montserrat-Light.ttf
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

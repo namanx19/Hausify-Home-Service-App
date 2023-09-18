@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:urbanserv/utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -28,16 +29,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Icon(Icons.location_on),
               ),
               const SizedBox(width: 8),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Mohaddipur',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: kHeadingFontStyle,
+                    //style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     'Gorakhpur',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                    style: kContentFontStyle.copyWith(
+                      color: Colors.grey,
+                    ),
+                    //style: TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                 ],
               ),

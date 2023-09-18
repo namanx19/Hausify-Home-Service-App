@@ -1,26 +1,29 @@
-// ignore_for_file: use_build_context_synchronously
-
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
 import 'package:flutter/material.dart';
-import 'package:urbanserv/utils/service.dart';
-import 'dart:async';
-import 'dart:math';
 import 'package:ionicons/ionicons.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
-import 'package:urbanserv/utils/constants.dart';
 import 'package:geocoding/geocoding.dart';
+import 'dart:async';
+import 'dart:math';
+import 'package:urbanserv/utils/service.dart';
 
 class StartPage extends StatefulWidget {
-  const StartPage({ Key? key }) : super(key: key);
+  const StartPage({Key? key}) : super(key: key);
 
   @override
   _StartPageState createState() => _StartPageState();
 }
 
+const TextStyle kContentFontStyle = TextStyle(
+  fontFamily: 'LightContent',
+  fontSize: 16.0,
+  color: Colors.black,
+  fontWeight: FontWeight.bold,
+);
+
 class _StartPageState extends State<StartPage> {
   List<Service> services = [
+    // List of services...
     Service('Cleaning', 'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-cleaning-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png'),
     Service('Plumber', 'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-plumber-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png'),
     Service('Electrician', 'https://img.icons8.com/external-wanicon-flat-wanicon/2x/external-multimeter-car-service-wanicon-flat-wanicon.png'),
@@ -33,13 +36,13 @@ class _StartPageState extends State<StartPage> {
   ];
 
   int selectedService = 4;
-  
   double? latitude;
   double? longitude;
   String? _currentAddress;
   Position? _currentPosition;
 
   Future<bool> _handleLocationPermission() async {
+    // Handling location permission...
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -63,11 +66,12 @@ class _StartPageState extends State<StartPage> {
           content: Text('Location permissions are permanently denied, we cannot request permissions.')));
       return false;
     }
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    // Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     return true;
   }
 
   Future<void> _getCurrentPosition() async {
+    // Getting current position...
     final hasPermission = await _handleLocationPermission();
     if (!hasPermission) return;
 
@@ -79,8 +83,8 @@ class _StartPageState extends State<StartPage> {
         if (placemarks.isNotEmpty) {
           Placemark placemark = placemarks[0];
           _currentAddress = "${placemark.locality}, ${placemark.administrativeArea}";
-          print("City: ${placemark.locality}");
-          print("Address: ${placemark.subLocality}");
+          // print("City: ${placemark.locality}");
+          // print("Address: ${placemark.subLocality}");
         }
       } catch (e) {
         debugPrint(e.toString());
@@ -92,13 +96,12 @@ class _StartPageState extends State<StartPage> {
 
   @override
   void initState() {
-    // Randomly select from service list every 2 seconds
+    // Randomly select service every 2 seconds...
     Timer.periodic(const Duration(seconds: 2), (timer) {
       setState(() {
         selectedService = Random().nextInt(services.length);
       });
     });
-
     super.initState();
   }
 
@@ -123,7 +126,7 @@ class _StartPageState extends State<StartPage> {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: services.length,
               itemBuilder: (BuildContext context, int index) {
-                return serviceContainer(services[index].imageURL, services[index].name, index);
+                return serviceContainer(services[index].imageURL, services[index].name, index, kContentFontStyle.copyWith(fontWeight: FontWeight.normal));
               },
             ),
           ),
@@ -134,14 +137,12 @@ class _StartPageState extends State<StartPage> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
-              // Set button color to orange
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50.0), // Set rounded corners
+                borderRadius: BorderRadius.circular(50.0),
               ),
               padding: const EdgeInsets.fromLTRB(30.0, 14.0, 30.0, 14.0),
-
             ),
-            icon: const Icon(Ionicons.location_outline), // Add location icon from Ionicons
+            icon: const Icon(Ionicons.location_outline),
             label: const Text(
               'Get Location',
               style: TextStyle(fontSize: 16),
@@ -152,17 +153,16 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-  serviceContainer(String image, String name, int index) {
+  Widget serviceContainer(String image, String name, int index, TextStyle textStyle) {
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: () {},
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: selectedService == index ? Colors.white : Colors.grey.shade100,
           border: Border.all(
-            color: selectedService == index ? Colors.green: Colors.grey.withOpacity(0),
+            color: selectedService == index ? Colors.green : Colors.grey.withOpacity(0),
             width: 2.0,
           ),
           borderRadius: BorderRadius.circular(15.0),
@@ -172,7 +172,7 @@ class _StartPageState extends State<StartPage> {
             children: <Widget>[
               Image.network(image, height: 30),
               const SizedBox(height: 10,),
-              Text(name, style: const TextStyle(fontSize: 14),)
+              Text(name, style: textStyle,)
             ]
         ),
       ),
