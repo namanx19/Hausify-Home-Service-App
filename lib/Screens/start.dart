@@ -40,6 +40,8 @@ class _StartPageState extends State<StartPage> {
   double? longitude;
   String? _currentAddress;
   Position? _currentPosition;
+  String? localArea;
+  String? cityName;
 
   Future<bool> _handleLocationPermission() async {
     // Handling location permission...
@@ -85,6 +87,9 @@ class _StartPageState extends State<StartPage> {
           _currentAddress = "${placemark.locality}, ${placemark.administrativeArea}";
           // print("City: ${placemark.locality}");
           // print("Address: ${placemark.subLocality}");
+          cityName = placemark.locality;
+          localArea = placemark.subLocality;
+
         }
       } catch (e) {
         debugPrint(e.toString());
@@ -126,14 +131,17 @@ class _StartPageState extends State<StartPage> {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: services.length,
               itemBuilder: (BuildContext context, int index) {
-                return serviceContainer(services[index].imageURL, services[index].name, index, kContentFontStyle.copyWith(fontWeight: FontWeight.normal));
+                return serviceContainer(services[index].imageURL, services[index].name, index, kContentFontStyle.copyWith(fontWeight: FontWeight.normal, fontSize: 12.0));
               },
             ),
           ),
           const SizedBox(height: 16),
           ElevatedButton.icon(
-            onPressed: () {
-              _getCurrentPosition();
+            onPressed: () async {
+              await _getCurrentPosition();
+              Navigator.pushNamed(
+                  context, '/homescreen',
+                arguments: {'localArea': localArea, 'cityName': cityName},);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,

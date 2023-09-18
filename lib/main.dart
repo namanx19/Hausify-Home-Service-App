@@ -27,7 +27,7 @@ class urbanserv extends StatelessWidget {
             fontFamily: 'BoldHeading',
           ),
         ),
-        initialRoute: '/start',
+        initialRoute: '/',
         routes: {
           '/': (context) => const OnboardingScreen(),
           '/start' : (context) => const StartPage(),

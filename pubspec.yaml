@@ -67,11 +67,11 @@ flutter:
   fonts:
     - family: BoldHeading
       fonts:
-        - asset: fonts/Project/Montserrat-Regular.ttf
+        - asset: assets\fonts\Project\Montserrat-Regular.ttf
 
     - family: LightContent
       fonts:
-        - asset: fonts/Project/Montserrat-Light.ttf
+        - asset: assets\fonts\Project\Montserrat-Light.ttf
 
   #   - images/a_dot_ham.jpeg
 
