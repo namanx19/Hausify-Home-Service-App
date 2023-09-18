@@ -1,18 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomeScreen(),
-    );
-  }
-}
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,125 +6,109 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Initialize variables for selected tab and location.
-  int _selectedIndex = 0;
-  String _location = "Your Location";
+  int _currentIndex = 0;
 
-  // Define a list of fragment widgets.
-  final List<Widget> _fragments = [
-    // Replace one of these with the given code.
-    Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          margin: const EdgeInsets.all(25.0),
-          color: Colors.transparent,
-          child: GridView.count(
-            crossAxisCount: 3,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: List.generate(9, (index) {
-              return Container(
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5.0),
-                decoration: BoxDecoration(
-                  //color: boxColors[index],
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    //color: index == selectedIndex ? Colors.blue : Colors.transparent,
-                    width: 2.0,
-                  ),
-                ),
-              );
-            }),
-          ),
-        ),
-      ],
-    ),
-    const Placeholder(),
-
-    const Placeholder(),
-
-    const Placeholder(),
-    const Placeholder(),
-  ];
-
-  // Function to update the selected tab.
-  void _onTabTapped(int index) {
+  void onNavItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _currentIndex = index;
     });
+  }
+
+  Widget buildTopBar() {
+    return Container(
+      color: const Color(0xFFEAF6F6),
+      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {},
+                child: const Icon(Icons.location_on),
+              ),
+              const SizedBox(width: 8),
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Mohaddipur',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'Gorakhpur',
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: () {},
+            child: const Icon(Icons.notifications),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildFragmentContent() {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            if (_currentIndex == 0)
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text('Home Fragment Content'),
+              ),
+            if (_currentIndex == 1)
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text('Cart Fragment Content'),
+              ),
+            if (_currentIndex == 2)
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text('User Profile Fragment Content'),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildNavBarIcon(IconData icon, int index) {
+    return GestureDetector(
+      onTap: () {
+        onNavItemTapped(index);
+      },
+      child: Icon(
+        icon,
+        size: 30.0,
+        color: _currentIndex == index ? Colors.green : Colors.grey,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: <Widget>[
+        children: [
+          buildTopBar(),
+          buildFragmentContent(),
           Container(
-            padding: const EdgeInsets.all(16.0),
-            //color: Colors.green,
+            color: const Color(0xFFEAF6F6),
+            padding: const EdgeInsets.all(16),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.location_on,
-                    color: Colors.green,
-                  ),
-                  onPressed: () {
-                    // Implement location fetching here.
-                    setState(() {
-                      _location = "New Location"; // Update location here.
-                    });
-                  },
-                ),
-                Text(
-                  "Location: $_location",
-                  style: const TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-                IconButton(
-                    onPressed: (){
-
-                    },
-                    icon: const Icon(
-                      Icons.search,
-                      color: Colors.black,
-
-                    ),
-                ),
+                buildNavBarIcon(Icons.home, 0),
+                buildNavBarIcon(Icons.shopping_cart, 1),
+                buildNavBarIcon(Icons.person, 2),
               ],
             ),
-          ),
-          Expanded(
-            child: _fragments[_selectedIndex],
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onTabTapped,
-        backgroundColor: Colors.green,
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.black.withOpacity(0.6),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: "Cart",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.category),
-            label: "Categories",
           ),
         ],
       ),

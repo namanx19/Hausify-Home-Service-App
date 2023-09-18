@@ -3,7 +3,7 @@ import 'package:urbanserv/Screens/GettingStarted/login_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/ob_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/registration_screen.dart';
 import 'package:urbanserv/Screens/home_screen.dart';
-import 'utils/constants.dart';
+//import 'utils/constants.dart';
 import 'package:urbanserv/Screens/start.dart';
 
 void main() {
