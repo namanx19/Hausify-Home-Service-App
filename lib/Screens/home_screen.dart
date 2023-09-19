@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:urbanserv/utils/constants.dart';
 //import 'package:urbanserv/Screens/start.dart';
+import 'package:urbanserv/utils/service.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,6 +10,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+
+
+  List<Service> services = [
+    // List of services...
+    Service('Cleaning', 'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-cleaning-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png'),
+    Service('Plumber', 'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-plumber-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png'),
+    Service('Electrician', 'https://img.icons8.com/external-wanicon-flat-wanicon/2x/external-multimeter-car-service-wanicon-flat-wanicon.png'),
+    Service('Painter', 'https://img.icons8.com/external-itim2101-flat-itim2101/2x/external-painter-male-occupation-avatar-itim2101-flat-itim2101.png'),
+    Service('Carpenter', 'https://img.icons8.com/fluency/2x/drill.png'),
+    Service('Gardener', 'https://img.icons8.com/external-itim2101-flat-itim2101/2x/external-gardener-male-occupation-avatar-itim2101-flat-itim2101.png'),
+    Service('Tailor', 'https://img.icons8.com/fluency/2x/sewing-machine.png'),
+    Service('Maid', 'https://img.icons8.com/color/2x/housekeeper-female.png'),
+    Service('Driver', 'https://img.icons8.com/external-sbts2018-lineal-color-sbts2018/2x/external-driver-women-profession-sbts2018-lineal-color-sbts2018.png'),
+  ];
 
   void onNavItemTapped(int index) {
     setState(() {
@@ -49,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
+
           GestureDetector(
             onTap: () {},
             child: const Icon(Icons.notifications),
@@ -60,26 +76,59 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildFragmentContent() {
     return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (_currentIndex == 0)
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text('Home Fragment Content'),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search a service',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
-            if (_currentIndex == 1)
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text('Cart Fragment Content'),
-              ),
-            if (_currentIndex == 2)
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text('User Profile Fragment Content'),
-              ),
-          ],
-        ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                if (_currentIndex == 0)
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                      height: MediaQuery.of(context).size.height * 0.45,
+                      width: MediaQuery.of(context).size.width,
+                      child: GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 1.0,
+                          crossAxisSpacing: 8.0,
+                          mainAxisSpacing: 8.0,
+                        ),
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: services.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return serviceContainer(services[index].imageURL, services[index].name, index, kContentFontStyle.copyWith(fontWeight: FontWeight.normal, fontSize: 12.0));
+                        },
+                      ),
+                    ),
+                  ),
+                if (_currentIndex == 1)
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text('Cart Fragment Content'),
+                  ),
+                if (_currentIndex == 2)
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text('User Profile Fragment Content'),
+                  ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -88,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () {
         onNavItemTapped(index);
+        print(index);
       },
       child: Icon(
         icon,
@@ -120,4 +170,22 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+Widget serviceContainer(String image, String name, int index, TextStyle textStyle) {
+  int? selectedService = 4;
+  return GestureDetector(
+    onTap: () async {
+      int getIndex = await index;
+      print(getIndex);
+    },
+    child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Image.network(image, height: 30),
+          const SizedBox(height: 10,),
+          Text(name, style: textStyle,)
+        ]
+    ),
+  );
 }
