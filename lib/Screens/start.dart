@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:urbanserv/utils/constants.dart';
 import 'dart:async';
 import 'dart:math';
 import 'package:urbanserv/utils/service.dart';
+
+import 'home_screen.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({Key? key}) : super(key: key);
@@ -14,12 +17,12 @@ class StartPage extends StatefulWidget {
   _StartPageState createState() => _StartPageState();
 }
 
-const TextStyle kContentFontStyle = TextStyle(
-  fontFamily: 'LightContent',
-  fontSize: 16.0,
-  color: Colors.black,
-  fontWeight: FontWeight.bold,
-);
+// const TextStyle kContentFontStyle = TextStyle(
+//   fontFamily: 'LightContent',
+//   fontSize: 16.0,
+//   color: Colors.black,
+//   fontWeight: FontWeight.bold,
+// );
 
 class _StartPageState extends State<StartPage> {
   List<Service> services = [
@@ -42,6 +45,7 @@ class _StartPageState extends State<StartPage> {
   Position? _currentPosition;
   String? localArea;
   String? cityName;
+  String? newCity;
 
   Future<bool> _handleLocationPermission() async {
     // Handling location permission...
@@ -89,6 +93,7 @@ class _StartPageState extends State<StartPage> {
           // print("Address: ${placemark.subLocality}");
           cityName = placemark.locality;
           localArea = placemark.subLocality;
+          newCity = placemark.administrativeArea; //dummy var
 
         }
       } catch (e) {
@@ -116,9 +121,8 @@ class _StartPageState extends State<StartPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 100),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 40.0),
             height: MediaQuery.of(context).size.height * 0.45,
             width: MediaQuery.of(context).size.width,
             child: GridView.builder(
@@ -135,13 +139,47 @@ class _StartPageState extends State<StartPage> {
               },
             ),
           ),
-          const SizedBox(height: 16),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Easy, reliable way to take care of your home',
+              textAlign: TextAlign.center,
+              style: kContentFontStyle.copyWith(
+                fontSize: 20.0,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 8.0,
+          ),
+          Padding(
+            //padding: const EdgeInsets.fromLTRB(16.0, 8.0 16.0, 8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            child: Text(
+              'We provide you with the best people to help take care of your home',
+              textAlign: TextAlign.center,
+              style: kContentFontStyle.copyWith(
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 30.0,
+          ),
           ElevatedButton.icon(
             onPressed: () async {
               await _getCurrentPosition();
-              Navigator.pushNamed(
-                  context, '/homescreen',
-                arguments: {'localArea': localArea, 'cityName': cityName},);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(
+                    localArea: localArea,
+                    cityName: cityName,
+                    newCity: newCity,
+                  ),
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
@@ -151,9 +189,12 @@ class _StartPageState extends State<StartPage> {
               padding: const EdgeInsets.fromLTRB(30.0, 14.0, 30.0, 14.0),
             ),
             icon: const Icon(Ionicons.location_outline),
-            label: const Text(
+            label: Text(
               'Get Location',
-              style: TextStyle(fontSize: 16),
+              style: kHeadingFontStyle.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],

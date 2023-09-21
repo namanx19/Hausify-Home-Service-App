@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:urbanserv/utils/constants.dart';
-//import 'package:urbanserv/Screens/start.dart';
+import 'package:urbanserv/Screens/start.dart';
 import 'package:urbanserv/utils/service.dart';
 
 class HomeScreen extends StatefulWidget {
+  final String? localArea;
+  final String? cityName;
+  final String? newCity;
+
+  HomeScreen({this.localArea, this.cityName, this.newCity});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -11,6 +17,24 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
+  String? _localArea;
+  String? _cityName;
+  String? _newCity;
+
+  @override
+  void initState() {
+    super.initState();
+    _localArea = widget.localArea;
+    _cityName = widget.cityName;
+    _newCity = widget.newCity;
+    print(_localArea);
+    print(_cityName);
+    print(_newCity);
+    if(_localArea == '')
+      {
+        _localArea = 'GIDA';
+      }
+  }
 
   List<Service> services = [
     // List of services...
@@ -54,17 +78,15 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Mohaddipur',
+                  Text(
+                    _localArea ?? 'GIDA',
                     style: kHeadingFontStyle,
-                    //style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Gorakhpur',
+                    _cityName ?? '',
                     style: kContentFontStyle.copyWith(
                       color: Colors.grey,
                     ),
-                    //style: TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                 ],
               ),
@@ -88,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               decoration: InputDecoration(
-                hintText: 'Search a service',
+                hintText: 'Search for a service',
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -96,57 +118,68 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                if (_currentIndex == 0)
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.45,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
-                      child: GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 1.0,
-                          crossAxisSpacing: 8.0,
-                          mainAxisSpacing: 8.0,
-                        ),
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: services.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return serviceContainer(services[index].imageURL,
-                              services[index].name, index, kContentFontStyle
-                                  .copyWith(fontWeight: FontWeight.normal,
-                                  fontSize: 12.0));
-                        },
-                      ),
-                    ),
+          // if (_currentIndex == 0)
+          //   Column(
+          //     children: services
+          //         .map((service) => Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: serviceContainer(
+          //         service.imageURL,
+          //         service.name,
+          //         0,
+          //         TextStyle(
+          //           fontSize: 16.0,
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //       ),
+          //     ))
+          //         .toList(),
+          //   ),
+
+          if (_currentIndex == 0)
+
+            Card(
+              elevation: 4, // Card elevation for a shadow effect
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0), // Adjust border radius as needed
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                  Image.network(
+                  imageURL,
+                  height: 50, // Adjust image height as needed
+                  width: 50, // Adjust image width as needed
+                  fit: BoxFit.contain, // Adjust image fit as needed
+                ),
+                SizedBox(width: 16.0), // Adjust spacing between image and text
+                // Text next to the image
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontSize: 16.0, // Adjust text size as needed
+                    fontWeight: FontWeight.bold, // Adjust text weight as needed
                   ),
-                if (_currentIndex == 1)
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text('Cart Fragment Content'),
-                  ),
-                if (_currentIndex == 2)
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text('User Profile Fragment Content'),
-                  ),
-              ],
+                  ],
+                ),
+              ),
             ),
-          ),
+          if (_currentIndex == 1)
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text('Cart Fragment Content'),
+            ),
+          if (_currentIndex == 2)
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text('User Profile Fragment Content'),
+            ),
         ],
       ),
     );
   }
+
 
   Widget buildNavBarIcon(IconData icon, int index) {
     return GestureDetector(
@@ -191,6 +224,35 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
+  // Widget serviceContainer(String imageURL, String name, int index,
+  //     TextStyle textStyle) {
+  //   int? selectedService = 4;
+  //   return Card(
+  //     elevation: 4,
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.circular(12.0),
+  //     ),
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(16.0),
+  //       child: Row(
+  //         children: [
+  //           Image.network(
+  //             imageURL,
+  //             height: 50,
+  //             width: 50,
+  //             fit: BoxFit.contain,
+  //           ),
+  //           SizedBox(width: 16.0),
+  //           Text(
+  //             name,
+  //             style: textStyle,
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
 
   Widget serviceContainer(String image, String name, int index,
       TextStyle textStyle) {
@@ -198,7 +260,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () async {
         int getIndex = await index;
-        print(getIndex);
       },
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
