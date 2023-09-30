@@ -94,7 +94,6 @@ class _StartPageState extends State<StartPage> {
           cityName = placemark.locality;
           localArea = placemark.subLocality;
           newCity = placemark.administrativeArea; //dummy var
-
         }
       } catch (e) {
         debugPrint(e.toString());

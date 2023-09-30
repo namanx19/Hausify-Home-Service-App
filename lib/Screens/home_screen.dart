@@ -118,52 +118,21 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          // if (_currentIndex == 0)
-          //   Column(
-          //     children: services
-          //         .map((service) => Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: serviceContainer(
-          //         service.imageURL,
-          //         service.name,
-          //         0,
-          //         TextStyle(
-          //           fontSize: 16.0,
-          //           fontWeight: FontWeight.bold,
-          //         ),
-          //       ),
-          //     ))
-          //         .toList(),
-          //   ),
-
           if (_currentIndex == 0)
-
-            Card(
-              elevation: 4, // Card elevation for a shadow effect
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0), // Adjust border radius as needed
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                  Image.network(
-                  imageURL,
-                  height: 50, // Adjust image height as needed
-                  width: 50, // Adjust image width as needed
-                  fit: BoxFit.contain, // Adjust image fit as needed
-                ),
-                SizedBox(width: 16.0), // Adjust spacing between image and text
-                // Text next to the image
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 16.0, // Adjust text size as needed
-                    fontWeight: FontWeight.bold, // Adjust text weight as needed
+            Column(
+              children: services
+                  .map((service) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: serviceContainer(
+                  service.imageURL,
+                  service.name,
+                  TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  ],
                 ),
-              ),
+              ))
+                  .toList(),
             ),
           if (_currentIndex == 1)
             const Padding(
@@ -179,7 +148,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 
   Widget buildNavBarIcon(IconData icon, int index) {
     return GestureDetector(
@@ -223,51 +191,35 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
-  // Widget serviceContainer(String imageURL, String name, int index,
-  //     TextStyle textStyle) {
-  //   int? selectedService = 4;
-  //   return Card(
-  //     elevation: 4,
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(12.0),
-  //     ),
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: Row(
-  //         children: [
-  //           Image.network(
-  //             imageURL,
-  //             height: 50,
-  //             width: 50,
-  //             fit: BoxFit.contain,
-  //           ),
-  //           SizedBox(width: 16.0),
-  //           Text(
-  //             name,
-  //             style: textStyle,
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-
-  Widget serviceContainer(String image, String name, int index,
-      TextStyle textStyle) {
-    int? selectedService = 4;
+  Widget serviceContainer(String image, String name, TextStyle textStyle) {
     return GestureDetector(
-      onTap: () async {
-        int getIndex = await index;
+      onTap: () {
+        // Handle service item tap
+        print('Tapped on service: $name');
       },
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.network(image, height: 30),
-            const SizedBox(height: 10,),
-            Text(name, style: textStyle,)
-          ]
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Image.network(
+                image,
+                height: 50,
+                width: 50,
+                fit: BoxFit.contain,
+              ),
+              SizedBox(width: 16.0),
+              Text(
+                name,
+                style: textStyle,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
