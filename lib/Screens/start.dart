@@ -18,6 +18,7 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+
   List<Service> services = [
     // List of services...
     Service('Cleaning', 'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-cleaning-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png'),
@@ -30,6 +31,18 @@ class _StartPageState extends State<StartPage> {
     Service('Maid', 'https://img.icons8.com/color/2x/housekeeper-female.png'),
     Service('Driver', 'https://img.icons8.com/external-sbts2018-lineal-color-sbts2018/2x/external-driver-women-profession-sbts2018-lineal-color-sbts2018.png'),
   ];
+  // List<Service> services = [
+  //   // List of services...
+  //   Service('Cleaning', 'assets/images/carpenter.png'),
+  //   Service('Plumber', 'assets/images/services/plumber.png'),
+  //   Service('Electrician', 'assets/images/services/electrician.png'),
+  //   Service('Painter', 'assets/images/services/painter.png'),
+  //   Service('Carpenter', 'assets/images/services/carpenter.png'),
+  //   Service('Gardener', 'assets/images/services/gardener.png'),
+  //   Service('Tailor', 'assets/images/services/tailor.png'),
+  //   Service('Maid', 'assets/images/services/maid.png'),
+  //   Service('Driver', 'assets/images/services/driver.png'),
+  // ];
 
   int selectedService = 4;
   double? latitude;

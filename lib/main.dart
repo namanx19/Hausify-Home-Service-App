@@ -6,11 +6,13 @@ import 'package:urbanserv/Screens/home_screen.dart';
 //import 'utils/constants.dart';
 import 'package:urbanserv/Screens/start.dart';
 import 'package:urbanserv/utils/constants.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(const urbanserv());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(urbanserv());
 }
-
 class urbanserv extends StatelessWidget {
   const urbanserv({Key? key}) : super(key: key);
 
@@ -27,7 +29,7 @@ class urbanserv extends StatelessWidget {
             fontFamily: 'BoldHeading',
           ),
         ),
-        initialRoute: '/homescreen',
+        initialRoute: '/',
         routes: {
           '/': (context) => const OnboardingScreen(),
           '/start' : (context) => const StartPage(),

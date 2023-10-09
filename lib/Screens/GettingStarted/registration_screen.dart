@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:urbanserv/utils/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -14,12 +15,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _reenterPasswordController = TextEditingController();
+  final _auth=FirebaseAuth.instance;
 
   Color _nameBorderColor = Colors.grey;
   Color _emailBorderColor = Colors.grey;
   Color _phoneBorderColor = Colors.grey;
   Color _passwordBorderColor = Colors.grey;
   Color _reenterPasswordBorderColor = Colors.grey;
+
 
   void _setBorderColor() {
     setState(() {
@@ -191,10 +194,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
                         foregroundColor: MaterialStateProperty.all(Colors.white)),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        // Perform registration functionality
-                        Navigator.pushNamed(context, '/start');
+                        String name = _nameController.text;
+                        String email = _emailController.text;
+                        String phone = _phoneController.text;
+                        String password = _passwordController.text;
+
+                        try{
+                          final newUser = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+                          if(newUser != null)
+                          {
+                            Navigator.pushNamed(context, '/start');
+                          }
+                        }
+                        catch(e) {
+                          print(e);
+                        }
+
                       }
                     },
                     child: const Text('Register'),
