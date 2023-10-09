@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:urbanserv/utils/constants.dart';
 import 'package:urbanserv/Screens/start.dart';
 import 'package:urbanserv/utils/service.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
 
 class HomeScreen extends StatefulWidget {
   final String? localArea;
@@ -19,17 +18,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  int _carouselIndex = 0;
 
   String? _localArea;
   String? _cityName;
   String? _newCity;
-
-  List<String> _images = [
-    'image1.jpg',
-    'image2.jpg',
-    'image3.jpg',
-    // Add more image paths as needed
-  ];
 
   @override
   void initState() {
@@ -96,7 +89,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget buildFragmentContent() {
     return Expanded(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Hi User!',
+              style: kContentFontStyle.copyWith(
+                fontSize: 24.0,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'What services do you need?',
+              style: kContentFontStyle.copyWith(
+                fontSize: 30.0,
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -110,55 +122,33 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          const SizedBox(
+            height: 16.0,
+          ),
           if (_currentIndex == 0)
-            Column(
-              children: [
-                CarouselSlider(
-                  items: _images.map((image) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                          ),
-                          child: Image.asset(
-                            'assets/$image',
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
-                    );
-                  }).toList(),
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                    aspectRatio: 16/9,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
-                  ),
+            CarouselSlider(
+              items: [
+                buildCarouselItem(
+                  imagePath: 'assets/images/offers/offer (1).jpg',
                 ),
-                SizedBox(height: 20.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: _images.map((image) {
-                    int index = _images.indexOf(image);
-                    return Container(
-                      width: 10.0,
-                      height: 10.0,
-                      margin: EdgeInsets.symmetric(horizontal: 2.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _currentIndex == index ? Colors.blue : Colors.grey,
-                      ),
-                    );
-                  }).toList(),
+                buildCarouselItem(
+                  imagePath: 'assets/images/offers/offer (1).jpg',
                 ),
+                buildCarouselItem(
+                  imagePath: 'assets/images/offers/offer (1).jpg',
+                ),
+                // ... Repeat for other images ...
               ],
+              options: CarouselOptions(
+                autoPlay: true,
+                enlargeCenterPage: true,
+                aspectRatio: 20 / 9,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _carouselIndex = index;
+                  });
+                },
+              ),
             ),
           if (_currentIndex == 1)
             const Padding(
@@ -179,12 +169,34 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () {
         onNavItemTapped(index);
-        print(index);
       },
       child: Icon(
         icon,
         size: 30.0,
         color: _currentIndex == index ? Colors.green : Colors.grey,
+      ),
+    );
+  }
+
+  Widget buildCarouselItem({required String imagePath}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Card(
+        color: Colors.grey[100], // Light grey background
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0), // Rounded edges
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              imagePath,
+              height: 100.0, // Adjust the height as needed
+              width: 100.0, // Adjust the width as needed
+              fit: BoxFit.cover,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -217,4 +229,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
