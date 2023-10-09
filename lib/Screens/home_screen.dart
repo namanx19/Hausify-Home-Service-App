@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:urbanserv/utils/constants.dart';
-import 'package:urbanserv/Screens/start.dart';
-import 'package:urbanserv/utils/service.dart';
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   final String? localArea;
@@ -19,6 +17,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   int _carouselIndex = 0;
+  int _totalCards = 3; // Total number of cards in the carousel
+  final CarouselController _carouselController = CarouselController();
+  late String _imageURL; // Initialize imageURL
 
   String? _localArea;
   String? _cityName;
@@ -33,8 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print(_localArea);
     print(_cityName);
     print(_newCity);
-    if(_localArea == '')
-    {
+    if (_localArea == '') {
       _localArea = 'GIDA';
     }
   }
@@ -64,11 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     _localArea ?? 'GIDA',
-                    style: kHeadingFontStyle,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     _cityName ?? '',
-                    style: kContentFontStyle.copyWith(
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
                       color: Colors.grey,
                     ),
                   ),
@@ -76,7 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-
           GestureDetector(
             onTap: () {},
             child: const Icon(Icons.notifications),
@@ -89,66 +90,146 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget buildFragmentContent() {
     return Expanded(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Hi User!',
-              style: kContentFontStyle.copyWith(
-                fontSize: 24.0,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'What services do you need?',
-              style: kContentFontStyle.copyWith(
-                fontSize: 30.0,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search for a service',
-                prefixIcon: const Icon(Icons.search),
-                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),  // Adjust the vertical padding here
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 16.0,
-          ),
           if (_currentIndex == 0)
-            CarouselSlider(
-              items: [
-                buildCarouselItem(
-                  imagePath: 'assets/images/offers/offer (1).jpg',
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Text(
+                    'Hi User!',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                buildCarouselItem(
-                  imagePath: 'assets/images/offers/offer (1).jpg',
+                const Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Text(
+                    'What services do you need?',
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                 ),
-                buildCarouselItem(
-                  imagePath: 'assets/images/offers/offer (1).jpg',
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Search for a service',
+                      prefixIcon: const Icon(Icons.search),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 8.0,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
                 ),
-                // ... Repeat for other images ...
+                const SizedBox(
+                  height: 16.0,
+                ),
+                CarouselSlider(
+                  items: [
+                    buildCarouselItem(
+                      imagePath: 'assets/images/google.png',
+                      cardColor: const Color(0xffEAF6F6),
+                    ),
+                    buildCarouselItem(
+                      imagePath: 'assets/images/facebook.png',
+                      cardColor: const Color(0xffEAF6F6),
+                    ),
+                    buildCarouselItem(
+                      imagePath: 'assets/images/apple.png',
+                      cardColor: const Color(0xffEAF6F6),
+                    ),
+                    // ... Repeat for other images ...
+                  ],
+
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    aspectRatio: 22 / 9,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _carouselIndex = index;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                Center(
+                  child: AnimatedSmoothIndicator(
+                    activeIndex: _carouselIndex,
+                    count: _totalCards,
+                    effect: const ExpandingDotsEffect(
+                      dotHeight: 10,
+                      dotWidth: 10,
+                      activeDotColor: Colors.blue,
+                      dotColor: Colors.grey,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 16.0),
+                      child: Text(
+                        'Services by category',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: TextButton(
+                        onPressed: () {
+                          // Handle 'See All' button tap
+                        },
+                        child: Text(
+                          'See All',
+                          style: kContentFontStyle.copyWith(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        for (int i = 0; i < 4; i++) // Change the number of icons as needed
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: circleService(
+                              imageURL: _imageURL,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
-              options: CarouselOptions(
-                autoPlay: true,
-                enlargeCenterPage: true,
-                aspectRatio: 20 / 9,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _carouselIndex = index;
-                  });
-                },
-              ),
             ),
           if (_currentIndex == 1)
             const Padding(
@@ -178,24 +259,31 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget buildCarouselItem({required String imagePath}) {
+  Widget buildCarouselItem({
+    required String imagePath,
+    required Color cardColor,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Card(
-        color: Colors.grey[100], // Light grey background
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0), // Rounded edges
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              imagePath,
-              height: 100.0, // Adjust the height as needed
-              width: 100.0, // Adjust the width as needed
-              fit: BoxFit.cover,
-            ),
-          ],
+      child: Container(
+        height: double.infinity, // Fixed height for the card
+        width: double.infinity, // Fixed width for the card
+        child: Card(
+          color: cardColor, // Light grey background
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0), // Rounded edges
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                imagePath,
+                height: 100.0, // Adjust the height as needed
+                width: 100.0, // Adjust the width as needed
+                fit: BoxFit.cover,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -203,15 +291,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Sample image URL, replace this with your actual image URL
+    _imageURL = 'https://example.com/image.png';
+
     return Scaffold(
       body: Column(
         children: [
           buildTopBar(),
-          Expanded(
-            child: SingleChildScrollView(
-              child: buildFragmentContent(),
-            ),
-          ),
+          buildFragmentContent(),
           Container(
             color: const Color(0xFFEAF6F6),
             padding: const EdgeInsets.all(16),
@@ -225,6 +312,30 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class circleService extends StatelessWidget {
+  final String imageURL;
+
+  const circleService({
+    required this.imageURL,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: GestureDetector(
+        onTap: () {
+          // Handle the tap for each category
+        },
+        child: CircleAvatar(
+          backgroundImage: NetworkImage(imageURL),
+          radius: 36.0,
+        ),
       ),
     );
   }
