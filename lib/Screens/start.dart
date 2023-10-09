@@ -17,13 +17,6 @@ class StartPage extends StatefulWidget {
   _StartPageState createState() => _StartPageState();
 }
 
-// const TextStyle kContentFontStyle = TextStyle(
-//   fontFamily: 'LightContent',
-//   fontSize: 16.0,
-//   color: Colors.black,
-//   fontWeight: FontWeight.bold,
-// );
-
 class _StartPageState extends State<StartPage> {
   List<Service> services = [
     // List of services...

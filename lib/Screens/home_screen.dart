@@ -1,7 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:urbanserv/utils/constants.dart';
 import 'package:urbanserv/Screens/start.dart';
 import 'package:urbanserv/utils/service.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
 
 class HomeScreen extends StatefulWidget {
   final String? localArea;
@@ -21,6 +24,13 @@ class _HomeScreenState extends State<HomeScreen> {
   String? _cityName;
   String? _newCity;
 
+  List<String> _images = [
+    'image1.jpg',
+    'image2.jpg',
+    'image3.jpg',
+    // Add more image paths as needed
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -31,29 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
     print(_cityName);
     print(_newCity);
     if(_localArea == '')
-      {
-        _localArea = 'GIDA';
-      }
+    {
+      _localArea = 'GIDA';
+    }
   }
-
-  List<Service> services = [
-    // List of services...
-    Service('Cleaning',
-        'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-cleaning-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png'),
-    Service('Plumber',
-        'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-plumber-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png'),
-    Service('Electrician',
-        'https://img.icons8.com/external-wanicon-flat-wanicon/2x/external-multimeter-car-service-wanicon-flat-wanicon.png'),
-    Service('Painter',
-        'https://img.icons8.com/external-itim2101-flat-itim2101/2x/external-painter-male-occupation-avatar-itim2101-flat-itim2101.png'),
-    Service('Carpenter', 'https://img.icons8.com/fluency/2x/drill.png'),
-    Service('Gardener',
-        'https://img.icons8.com/external-itim2101-flat-itim2101/2x/external-gardener-male-occupation-avatar-itim2101-flat-itim2101.png'),
-    Service('Tailor', 'https://img.icons8.com/fluency/2x/sewing-machine.png'),
-    Service('Maid', 'https://img.icons8.com/color/2x/housekeeper-female.png'),
-    Service('Driver',
-        'https://img.icons8.com/external-sbts2018-lineal-color-sbts2018/2x/external-driver-women-profession-sbts2018-lineal-color-sbts2018.png'),
-  ];
 
   void onNavItemTapped(int index) {
     setState(() {
@@ -112,27 +103,62 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: InputDecoration(
                 hintText: 'Search for a service',
                 prefixIcon: const Icon(Icons.search),
+                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),  // Adjust the vertical padding here
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(30.0),
                 ),
               ),
             ),
           ),
           if (_currentIndex == 0)
             Column(
-              children: services
-                  .map((service) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: serviceContainer(
-                  service.imageURL,
-                  service.name,
-                  TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+              children: [
+                CarouselSlider(
+                  items: _images.map((image) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                          ),
+                          child: Image.asset(
+                            'assets/$image',
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    aspectRatio: 16/9,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
                   ),
                 ),
-              ))
-                  .toList(),
+                SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _images.map((image) {
+                    int index = _images.indexOf(image);
+                    return Container(
+                      width: 10.0,
+                      height: 10.0,
+                      margin: EdgeInsets.symmetric(horizontal: 2.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _currentIndex == index ? Colors.blue : Colors.grey,
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
           if (_currentIndex == 1)
             const Padding(
@@ -190,37 +216,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  Widget serviceContainer(String image, String name, TextStyle textStyle) {
-    return GestureDetector(
-      onTap: () {
-        // Handle service item tap
-        print('Tapped on service: $name');
-      },
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Image.network(
-                image,
-                height: 50,
-                width: 50,
-                fit: BoxFit.contain,
-              ),
-              SizedBox(width: 16.0),
-              Text(
-                name,
-                style: textStyle,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
+
