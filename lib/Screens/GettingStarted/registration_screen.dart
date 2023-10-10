@@ -196,16 +196,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         foregroundColor: MaterialStateProperty.all(Colors.white)),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        String name = _nameController.text;
                         String email = _emailController.text;
-                        String phone = _phoneController.text;
                         String password = _passwordController.text;
+                        String phone = _phoneController.text;
 
                         try{
                           final newUser = await _auth.createUserWithEmailAndPassword(email: email, password: password);
                           if(newUser != null)
                           {
-                            Navigator.pushNamed(context, '/start');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Registration Successful !! Please Login. '),
+                              ),
+                            );
+                            Navigator.pushNamed(context, '/loginScreen');
                           }
                         }
                         catch(e) {

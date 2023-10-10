@@ -88,6 +88,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildFragmentContent() {
+
+    //This list is for adding service images inside the Gesture detectors
+    List<String> serviceImageURLs = [
+      'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-cleaning-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png', // Image URL for the first service
+      'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-plumber-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png', // Image URL for the second service
+      'https://img.icons8.com/external-wanicon-flat-wanicon/2x/external-multimeter-car-service-wanicon-flat-wanicon.png', // Image URL for the third service
+      'https://img.icons8.com/fluency/2x/drill.png', // Image URL for the fourth service
+    ];
     return Expanded(
       child: Column(
         children: [
@@ -223,8 +231,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         for (int i = 0; i < 4; i++) // Change the number of icons as needed
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: circleService(
-                              imageURL: _imageURL,
+                            child: CircleService(
+                              imageURLs: [serviceImageURLs[i]],
                             ),
                           ),
                       ],
@@ -265,20 +273,18 @@ class _HomeScreenState extends State<HomeScreen> {
     required String imagePath,
     // required Color cardColor,
   }) {
-    return Container(
-      child: Card(
-        color: Color(0xffEAF6F6),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15.0),
-          child: Image.asset(
-            imagePath,
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.contain, // Maintain aspect ratio and fit within the card
-          ),
+    return Card(
+      color: const Color(0xffEEEEEE),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15.0),
+        child: Image.asset(
+          imagePath,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.contain, // Maintain aspect ratio and fit within the card
         ),
       ),
     );
@@ -312,11 +318,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class circleService extends StatelessWidget {
-  final String imageURL;
+class CircleService extends StatelessWidget {
+  final List<String> imageURLs;
 
-  const circleService({
-    required this.imageURL,
+  const CircleService({
+    required this.imageURLs,
   });
 
   @override
@@ -328,10 +334,23 @@ class circleService extends StatelessWidget {
           // Handle the tap for each category
         },
         child: CircleAvatar(
-          backgroundImage: NetworkImage(imageURL),
-          radius: 36.0,
+          backgroundColor: Color(0xffEEEEEE),
+          radius: 44.0,
+          child: Container(
+            width: 48.0, // Adjust the width to change the image size
+            height: 48.0, // Adjust the height to change the image size
+            decoration: BoxDecoration(
+              //shape: BoxShape.circle,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(imageURLs[0]),
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
 }
+
+

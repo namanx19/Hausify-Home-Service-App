@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final _auth=FirebaseAuth.instance;
 
   LoginScreen({super.key});
 
@@ -49,7 +52,20 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
+                    try {
+                      final email = emailController.text;
+                      final password = passwordController.text;
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: email,
+                        password: password,
+                      );
+                      Navigator.pushNamed(context, '/start');
+                    } catch (e) {
+                      // Handle login errors (e.g., invalid credentials) here.
+                      print('Login error: $e');
+                      // You can also display an error message to the user.
+                    }
                     // Perform login logic here
                   },
                   child: const Text('Login'),
@@ -64,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                         'Don\'t have an account?'
                     ),
                     TextButton(
-                        onPressed: (){
+                        onPressed: () {
                           Navigator.pushNamed(context, '/registrationScreen');
                         },
                         child: const Text('Register Here'),
