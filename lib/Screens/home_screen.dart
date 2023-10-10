@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   int _carouselIndex = 0;
-  int _totalCards = 3; // Total number of cards in the carousel
+  final int _totalCards = 3; // Total number of cards in the carousel
   final CarouselController _carouselController = CarouselController();
   late String _imageURL; // Initialize imageURL
 
@@ -88,10 +88,25 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildFragmentContent() {
+    // This list is for adding service images inside the Gesture detectors
+    List<String> serviceImageURLs = [
+      'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-cleaning-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png', // Image URL for the first service
+      'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-plumber-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png', // Image URL for the second service
+      'https://img.icons8.com/external-wanicon-flat-wanicon/2x/external-multimeter-car-service-wanicon-flat-wanicon.png', // Image URL for the third service
+      'https://img.icons8.com/fluency/2x/drill.png', // Image URL for the fourth service
+    ];
+
+    List<String> serviceNames = [
+      'Cleaning',
+      'Plumbing',
+      'Electrician',
+      'Carpenter',
+    ];
+
     return Expanded(
       child: Column(
         children: [
-          if (_currentIndex == 0)
+          if (_currentIndex == 0) ...[
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -150,7 +165,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     // ... Repeat for other images ...
                   ],
-
                   options: CarouselOptions(
                     autoPlay: true,
                     enlargeCenterPage: true,
@@ -213,26 +227,60 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        for (int i = 0; i < 4; i++) // Change the number of icons as needed
+                        for (int i = 0; i < 4; i++) ...[
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: circleService(
-                              imageURL: _imageURL,
+                            child: Column(
+                              children: [
+                                CircleService(
+                                  imageURLs: [serviceImageURLs[i]],
+                                  onTapCallback: () {
+                                    // Provide different functionality based on the category index (i)
+                                    switch (i) {
+                                      case 0:
+                                      // Handle tap for the first category
+                                        print('Tapped category 1');
+                                        break;
+                                      case 1:
+                                      // Handle tap for the second category
+                                        print('Tapped category 2');
+                                        break;
+                                      case 2:
+                                      // Handle tap for the third category
+                                        print('Tapped category 3');
+                                        break;
+                                      case 3:
+                                      // Handle tap for the fourth category
+                                        print('Tapped category 4');
+                                        break;
+                                      default:
+                                        break;
+                                    }
+                                  },
+                                ),
+                                Text(
+                                  serviceNames[i],
+                                  style: kContentFontStyle.copyWith(
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                        ],
                       ],
                     ),
                   ),
                 ),
               ],
             ),
+          ],
           if (_currentIndex == 1)
             const Padding(
               padding: EdgeInsets.all(16.0),
@@ -247,6 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
 
   Widget buildNavBarIcon(IconData icon, int index) {
     return GestureDetector(
@@ -265,20 +314,18 @@ class _HomeScreenState extends State<HomeScreen> {
     required String imagePath,
     // required Color cardColor,
   }) {
-    return Container(
-      child: Card(
-        color: Color(0xffEAF6F6),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15.0),
-          child: Image.asset(
-            imagePath,
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.contain, // Maintain aspect ratio and fit within the card
-          ),
+    return Card(
+      color: const Color(0xffEEEEEE),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15.0),
+        child: Image.asset(
+          imagePath,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.contain, // Maintain aspect ratio and fit within the card
         ),
       ),
     );
@@ -312,11 +359,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class circleService extends StatelessWidget {
-  final String imageURL;
+class CircleService extends StatelessWidget {
+  final List<String> imageURLs;
+  final VoidCallback onTapCallback; // Callback function for onTap
 
-  const circleService({
-    required this.imageURL,
+  const CircleService({
+    required this.imageURLs,
+    required this.onTapCallback,
   });
 
   @override
@@ -324,14 +373,24 @@ class circleService extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: GestureDetector(
-        onTap: () {
-          // Handle the tap for each category
-        },
+        onTap: onTapCallback, // Call the provided callback function
         child: CircleAvatar(
-          backgroundImage: NetworkImage(imageURL),
-          radius: 36.0,
+          backgroundColor: Color(0xffEEEEEE),
+          radius: 44.0,
+          child: Container(
+            width: 48.0,
+            height: 48.0,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(imageURLs[0]),
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
 }
+
+
