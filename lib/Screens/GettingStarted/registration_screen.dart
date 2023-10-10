@@ -106,6 +106,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   const SizedBox(height: 16.0),
                   TextFormField(
+                    keyboardType: TextInputType.number,
                     controller: _phoneController,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Ionicons.call),
