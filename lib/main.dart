@@ -3,9 +3,7 @@ import 'package:urbanserv/Screens/GettingStarted/login_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/ob_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/registration_screen.dart';
 import 'package:urbanserv/Screens/home_screen.dart';
-//import 'utils/constants.dart';
 import 'package:urbanserv/Screens/start.dart';
-import 'package:urbanserv/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
