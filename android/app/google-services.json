@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "315368809817",
-    "project_id": "hausify-7442b",
-    "storage_bucket": "hausify-7442b.appspot.com"
+    "project_number": "404345169187",
+    "project_id": "hausify-75240",
+    "storage_bucket": "hausify-75240.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:315368809817:android:bd091fe8eb26fb40065848",
+        "mobilesdk_app_id": "1:404345169187:android:c51d40833eaddc64659896",
         "android_client_info": {
           "package_name": "com.urbanserv.urbanserv"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDgUpHIB_4Bzmd_A0bE8n2hT4F7vSOZvHo"
+          "current_key": "AIzaSyDZwkxmgz5UK1MXByvp4Lx2DzE9iYT8rwA"
         }
       ],
       "services": {
