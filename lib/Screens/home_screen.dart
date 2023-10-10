@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CarouselSlider(
                   items: [
                     buildCarouselItem(
-                      imagePath: 'assets/images/google.png',
+                      imagePath: 'assets/images/discount1.jpg',
                       cardColor: const Color(0xffEAF6F6),
                     ),
                     buildCarouselItem(
@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   options: CarouselOptions(
                     autoPlay: true,
                     enlargeCenterPage: true,
-                    aspectRatio: 22 / 9,
+                    aspectRatio: 20 / 9,
                     onPageChanged: (index, reason) {
                       setState(() {
                         _carouselIndex = index;
@@ -263,31 +263,30 @@ class _HomeScreenState extends State<HomeScreen> {
     required String imagePath,
     required Color cardColor,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Container(
-        height: double.infinity, // Fixed height for the card
-        width: double.infinity, // Fixed width for the card
-        child: Card(
-          color: cardColor, // Light grey background
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0), // Rounded edges
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                imagePath,
-                height: 100.0, // Adjust the height as needed
-                width: 100.0, // Adjust the width as needed
-                fit: BoxFit.cover,
-              ),
-            ],
+    return Container(
+      child: Card(
+        color: cardColor, // Light grey background
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0), // Rounded edges
+        ),
+        child: Center(
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover, // Ensure the image covers the entire card
           ),
         ),
       ),
     );
   }
+
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
