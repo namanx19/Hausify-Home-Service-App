@@ -138,15 +138,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   items: [
                     buildCarouselItem(
                       imagePath: 'assets/images/discount1.jpg',
-                      cardColor: const Color(0xffEAF6F6),
+                      // cardColor: const Color(0xffEAF6F6),
                     ),
                     buildCarouselItem(
                       imagePath: 'assets/images/facebook.png',
-                      cardColor: const Color(0xffEAF6F6),
+                      // cardColor: const Color(0xffEAF6F6),
                     ),
                     buildCarouselItem(
                       imagePath: 'assets/images/apple.png',
-                      cardColor: const Color(0xffEAF6F6),
+                      // cardColor: const Color(0xffEAF6F6),
                     ),
                     // ... Repeat for other images ...
                   ],
@@ -160,6 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         _carouselIndex = index;
                       });
                     },
+                    viewportFraction: 0.9, // Adjust the fraction as needed
+                    initialPage: 0,
                   ),
                 ),
                 const SizedBox(
@@ -261,32 +263,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildCarouselItem({
     required String imagePath,
-    required Color cardColor,
+    // required Color cardColor,
   }) {
     return Container(
       child: Card(
-        color: cardColor, // Light grey background
+        color: Color(0xffEAF6F6),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0), // Rounded edges
+          borderRadius: BorderRadius.circular(15.0),
         ),
-        child: Center(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15.0),
           child: Image.asset(
             imagePath,
-            fit: BoxFit.cover, // Ensure the image covers the entire card
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.contain, // Maintain aspect ratio and fit within the card
           ),
         ),
       ),
     );
   }
-
-
-
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
