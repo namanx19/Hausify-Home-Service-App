@@ -171,7 +171,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         scale: 1.3,
                         child: Checkbox(
                           value: isChecked,
-                          shape: CircleBorder(),
+                          shape: const CircleBorder(),
                           onChanged: (bool? value) {
                             setState(() {
                               isChecked = value!;
@@ -186,11 +186,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   const SizedBox(height: 16.0),
                   ElevatedButton(
                     style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(Size(200, 50)),
+                        minimumSize: MaterialStateProperty.all(const Size(200, 50)),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
-                            side: BorderSide(color: Colors.blue, width: 2),
+                            side: const BorderSide(color: Colors.blue, width: 2),
                           ),
                         ),
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
@@ -206,7 +206,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           if(newUser != null)
                           {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                 content: Text('Registration Successful !! Please Login. '),
                               ),
                             );

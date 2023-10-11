@@ -7,6 +7,7 @@ import 'package:urbanserv/Screens/home_screen.dart';
 import 'package:urbanserv/Screens/start.dart';
 import 'package:urbanserv/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:urbanserv/Screens/profile_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +37,7 @@ class urbanserv extends StatelessWidget {
           '/loginScreen': (context) => LoginScreen(),
           '/registrationScreen': (context) => RegistrationScreen(),
           '/homescreen': (context) => HomeScreen(),
+          '/profile': (context) => ProfileScreen(),
       },
       ),
     );
