@@ -79,10 +79,10 @@ class LoginScreen extends StatelessWidget {
                         'Don\'t have an account?'
                     ),
                     TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/registrationScreen');
-                        },
-                        child: const Text('Register Here'),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/registrationScreen');
+                      },
+                      child: const Text('Register Here'),
                     ),
                   ],
                 ),
@@ -180,6 +180,7 @@ class LoginScreen extends StatelessWidget {
     UserCredential userCredential=await FirebaseAuth.instance.signInWithCredential(credential);
     if(userCredential.user!=null)
     {
+      print(userCredential);
       Navigator.pushNamed(context, '/start');
     }
 

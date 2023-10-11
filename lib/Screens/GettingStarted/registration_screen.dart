@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:urbanserv/utils/constants.dart';
@@ -15,14 +17,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _reenterPasswordController = TextEditingController();
-  final _auth=FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
 
   Color _nameBorderColor = Colors.grey;
   Color _emailBorderColor = Colors.grey;
   Color _phoneBorderColor = Colors.grey;
   Color _passwordBorderColor = Colors.grey;
   Color _reenterPasswordBorderColor = Colors.grey;
-
+  TextEditingController _otpController = TextEditingController(); // Added OTP controller
 
   void _setBorderColor() {
     setState(() {
@@ -40,7 +42,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   bool _validateEmail(String value) {
-    return !RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$").hasMatch(value);
+    return !RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,}$").hasMatch(value);
   }
 
   bool _validatePhone(String value) {
@@ -52,6 +54,87 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   bool isChecked = false;
+
+  Future<void> sendOTP() async {
+    try {
+      final phone = "+91" + _phoneController.text; // Assuming the phone number format
+      final confirmationResult = await _auth.verifyPhoneNumber(
+        phoneNumber: phone,
+        verificationCompleted: (PhoneAuthCredential credential) {
+          // Automatically sign in if verification is complete
+          _auth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          print(e);
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          // Store the verification ID
+          _verificationId = verificationId;
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          _verificationId = verificationId;
+        },
+      );
+
+      // OTP sent to the phone, now display OTP input field
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Center(
+              child: Text("Enter OTP", textAlign: TextAlign.center),
+            ),
+            content: Container(
+              width: MediaQuery.of(context).size.width * 0.7, // Adjust the width as needed
+              child: TextField(
+                textAlign: TextAlign.center,
+                keyboardType: TextInputType.number,
+                controller: _otpController,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.person),
+                  labelText: 'Phone OTP',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50.0),
+                    borderSide: BorderSide(color: _nameBorderColor),
+                  ),
+                ),
+              ),
+            ),
+            actions: [
+              Center(
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(const Size(150, 40)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                        side: const BorderSide(color: Colors.blue, width: 2),
+                      ),
+                    ),
+                    backgroundColor: MaterialStateProperty.all(Colors.blue),
+                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                  ),
+                  onPressed: () async {
+                    // Your existing code for button onPressed
+                  },
+                  child: Text("Verify OTP"),
+                ),
+              ),
+            ],
+          );
+
+
+        },
+      );
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Verification failed. Please try again.'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,37 +269,40 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   const SizedBox(height: 16.0),
                   ElevatedButton(
                     style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(const Size(200, 50)),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            side: const BorderSide(color: Colors.blue, width: 2),
-                          ),
+                      minimumSize: MaterialStateProperty.all(const Size(200, 50)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          side: const BorderSide(color: Colors.blue, width: 2),
                         ),
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
-                        foregroundColor: MaterialStateProperty.all(Colors.white)),
+                      ),
+                      backgroundColor: MaterialStateProperty.all(Colors.blue),
+                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                    ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         String email = _emailController.text;
                         String password = _passwordController.text;
                         String phone = _phoneController.text;
 
-                        try{
-                          final newUser = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-                          if(newUser != null)
-                          {
+                        try {
+                          final newUser = await _auth.createUserWithEmailAndPassword(
+                            email: email,
+                            password: password,
+                          );
+
+                          if (newUser != null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Registration Successful !! Please Login. '),
+                                content: Text('Registration Successful !! Please Verify Email and Phone.'),
                               ),
                             );
-                            Navigator.pushNamed(context, '/loginScreen');
+                            // Send OTP to phone and verify it
+                            await sendOTP();
                           }
-                        }
-                        catch(e) {
+                        } catch (e) {
                           print(e);
                         }
-
                       }
                     },
                     child: const Text('Register'),
@@ -228,5 +314,36 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ),
     );
+  }
+
+  String _verificationId = '';
+
+  Future<void> verifyOTP() async {
+    try {
+      AuthCredential authCredential = PhoneAuthProvider.credential(
+        verificationId: _verificationId,
+        smsCode: _otpController.text,
+      );
+
+      final userCredential = await _auth.signInWithCredential(authCredential); // Verify OTP
+
+      if (userCredential != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Phone Verification Successful. Please check your email for verification.'),
+          ),
+        );
+
+        // You can also send a verification email to the user's email address
+        //  await _auth.currentUser.sendEmailVerification();
+      }
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Verification failed. Please try again.'),
+        ),
+      );
+    }
   }
 }

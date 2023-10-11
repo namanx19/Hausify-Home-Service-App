@@ -3,11 +3,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../utils/constants.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
   final String? localArea;
   final String? cityName;
   final String? newCity;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   HomeScreen({this.localArea, this.cityName, this.newCity});
 
@@ -16,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   int _currentIndex = 0;
   int _carouselIndex = 0;
   final int _totalCards = 3; // Total number of cards in the carousel
@@ -329,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: EdgeInsets.zero,
               child: Text(
-                'Cart fragment'
+                  'Cart fragment'
               ),
             ),
           if (_currentIndex == 2)
@@ -412,9 +415,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               buildCard(
                                 icon: Ionicons.log_out,
                                 title: 'Logout',
-                                onPressed: () {
-                                  // Handle Logout card pressed
-                                  print('Logout card pressed');
+                                onPressed: () async {
+                                  try {
+                                    await _auth.signOut();
+                                    // After signing out, you may want to navigate to a login or home screen.
+                                    // For example, you can use Navigator to go back to your login screen.
+                                    Navigator.pushNamed(context, '/loginScreen');
+                                  } catch (e) {
+                                    print('Error during sign out: $e');
+                                  }
                                 },
                               ),
                             ],
@@ -552,5 +561,3 @@ class CircleService extends StatelessWidget {
     );
   }
 }
-
-
