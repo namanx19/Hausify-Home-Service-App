@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final _auth=FirebaseAuth.instance;
 
   LoginScreen({super.key});
 
@@ -130,7 +129,9 @@ class LoginScreen extends StatelessWidget {
                       ),
                       child: Center(
                         child: TextButton(
-                          onPressed:(){},
+                          onPressed:() async{
+                            await signInWithGoogle(context);
+                          },
                           child: Image.asset(
                             'assets/images/google.png',
                             height: 60.0,
@@ -168,5 +169,20 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+  signInWithGoogle(BuildContext context) async{
+    GoogleSignInAccount? googleUser =await GoogleSignIn().signIn();
+    GoogleSignInAuthentication? googleAuth= await googleUser?.authentication;
+    AuthCredential credential=GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken
+    );
+    UserCredential userCredential=await FirebaseAuth.instance.signInWithCredential(credential);
+    if(userCredential.user!=null)
+    {
+      Navigator.pushNamed(context, '/start');
+    }
+
+
   }
 }
