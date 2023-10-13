@@ -32,9 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _localArea = widget.localArea;
-    _cityName = widget.cityName;
-    _newCity = widget.newCity;
     print(_localArea);
     print(_cityName);
     print(_newCity);

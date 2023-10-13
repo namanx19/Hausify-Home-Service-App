@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
@@ -18,13 +18,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _reenterPasswordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
+  String _verificationId = '';
 
   Color _nameBorderColor = Colors.grey;
   Color _emailBorderColor = Colors.grey;
   Color _phoneBorderColor = Colors.grey;
   Color _passwordBorderColor = Colors.grey;
   Color _reenterPasswordBorderColor = Colors.grey;
-  TextEditingController _otpController = TextEditingController(); // Added OTP controller
+  final TextEditingController _otpController = TextEditingController(); // Added OTP controller
 
   void _setBorderColor() {
     setState(() {
@@ -53,19 +54,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return value.length < 8;
   }
 
-  bool isChecked = false;
+  bool isChecked = false;bool isPhone = false;bool isMail = false;
 
-  Future<void> sendOTP() async {
+  Future<void> sendOTP(BuildContext context) async {
     try {
-      final phone = "+91" + _phoneController.text; // Assuming the phone number format
-      final confirmationResult = await _auth.verifyPhoneNumber(
+      final phone = "+91${_phoneController.text}"; // Assuming the phone number format
+
+      await _auth.verifyPhoneNumber(
         phoneNumber: phone,
-        verificationCompleted: (PhoneAuthCredential credential) {
+        verificationCompleted: (PhoneAuthCredential credential) async {
           // Automatically sign in if verification is complete
-          _auth.signInWithCredential(credential);
+          await _auth.signInWithCredential(credential);
+          isPhone=true;
         },
         verificationFailed: (FirebaseAuthException e) {
           print(e);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Verification failed. Either already registered or invalid.'),
+            ),
+          );
         },
         codeSent: (String verificationId, int? resendToken) {
           // Store the verification ID
@@ -81,49 +89,42 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Center(
-              child: Text("Enter OTP", textAlign: TextAlign.center),
-            ),
-            content: Container(
-              width: MediaQuery.of(context).size.width * 0.7, // Adjust the width as needed
-              child: TextField(
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.number,
-                controller: _otpController,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.person),
-                  labelText: 'Phone OTP',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50.0),
-                    borderSide: BorderSide(color: _nameBorderColor),
-                  ),
-                ),
-              ),
+            title: const Text("Enter OTP"),
+            content: TextField(
+              keyboardType: TextInputType.number,
+              controller: _otpController,
             ),
             actions: [
-              Center(
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all(const Size(150, 40)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        side: const BorderSide(color: Colors.blue, width: 2),
+              ElevatedButton(
+                onPressed: () async {
+                  AuthCredential authCredential = PhoneAuthProvider.credential(
+                    verificationId: _verificationId,
+                    smsCode: _otpController.text,
+                  );
+
+                  try  {
+                    await _auth.signInWithCredential(authCredential); // Verify OTP
+                    User? user = _auth.currentUser;
+                    if(user!=null)
+                    {isPhone=true;}
+
+
+                    Navigator.of(context).pop();
+                    sendEmailVerificationAndRegisterUser(context, _auth, _emailController.text,_passwordController.text);
+
+                  } catch (e) {
+                    print(e);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Verification failed. Either already registered or invalid.'),
                       ),
-                    ),
-                    backgroundColor: MaterialStateProperty.all(Colors.blue),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                  ),
-                  onPressed: () async {
-                    // Your existing code for button onPressed
-                  },
-                  child: Text("Verify OTP"),
-                ),
+                    );
+                  }
+                },
+                child: const Text("Verify OTP"),
               ),
             ],
           );
-
-
         },
       );
     } catch (e) {
@@ -135,6 +136,63 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       );
     }
   }
+
+  Future<void> sendEmailVerificationAndRegisterUser(
+      BuildContext context, FirebaseAuth _auth, String email, String password) async {
+    try {
+      // Create a new user with email and password
+
+
+      // Display a dialog to inform the user to check their email
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Verify Email"),
+            content: const Text(
+                "A verification email has been sent to your email address. Please check your inbox and click the verification link to complete the registration."),
+            actions: [
+              ElevatedButton(
+                onPressed: () async {
+                  await _auth.createUserWithEmailAndPassword(email: email, password: password);
+
+                  User? user = _auth.currentUser;
+
+                  // Send email verification
+                  await user?.sendEmailVerification();
+                  Navigator.of(context).pop();
+                  if(user!=null)
+                  {isMail=true;}
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+
+      // You can navigate the user to the home screen or login screen here.
+      // Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Registration failed. Please try again.'),
+        ),
+      );
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -280,30 +338,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       foregroundColor: MaterialStateProperty.all(Colors.white),
                     ),
                     onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        String email = _emailController.text;
-                        String password = _passwordController.text;
-                        String phone = _phoneController.text;
+                      await sendOTP(context);
+                      if(isMail && isPhone)
+                      {
+                        Navigator.pushNamed(context, '/loginScreen');
 
-                        try {
-                          final newUser = await _auth.createUserWithEmailAndPassword(
-                            email: email,
-                            password: password,
-                          );
-
-                          if (newUser != null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Registration Successful !! Please Verify Email and Phone.'),
-                              ),
-                            );
-                            // Send OTP to phone and verify it
-                            await sendOTP();
-                          }
-                        } catch (e) {
-                          print(e);
-                        }
                       }
+                      else
+                      {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please verify both email and phone no.'),
+                          ),
+                        );
+                      }
+
                     },
                     child: const Text('Register'),
                   ),
@@ -316,34 +365,5 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  String _verificationId = '';
 
-  Future<void> verifyOTP() async {
-    try {
-      AuthCredential authCredential = PhoneAuthProvider.credential(
-        verificationId: _verificationId,
-        smsCode: _otpController.text,
-      );
-
-      final userCredential = await _auth.signInWithCredential(authCredential); // Verify OTP
-
-      if (userCredential != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Phone Verification Successful. Please check your email for verification.'),
-          ),
-        );
-
-        // You can also send a verification email to the user's email address
-        //  await _auth.currentUser.sendEmailVerification();
-      }
-    } catch (e) {
-      print(e);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Verification failed. Please try again.'),
-        ),
-      );
-    }
-  }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:urbanserv/Screens/GettingStarted/login_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/ob_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/registration_screen.dart';
+import 'package:urbanserv/Screens/categoryscreen.dart';
 import 'package:urbanserv/Screens/home_screen.dart';
 import 'package:urbanserv/Screens/start.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,7 +29,7 @@ class urbanserv extends StatelessWidget {
             fontFamily: 'BoldHeading',
           ),
         ),
-        initialRoute: '/homescreen',
+        initialRoute: '/categoryScreen',
         routes: {
           '/': (context) => const OnboardingScreen(),
           '/start' : (context) => const StartPage(),
@@ -36,6 +37,7 @@ class urbanserv extends StatelessWidget {
           '/registrationScreen': (context) => RegistrationScreen(),
           '/homescreen': (context) => HomeScreen(),
           '/profile': (context) => ProfileScreen(),
+          '/categoryScreen': (context) => CategoryScreen(),
       },
       ),
     );

@@ -61,11 +61,12 @@ class LoginScreen extends StatelessWidget {
                       );
                       Navigator.pushNamed(context, '/start');
                     } catch (e) {
-                      // Handle login errors (e.g., invalid credentials) here.
-                      print('Login error: $e');
-                      // You can also display an error message to the user.
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Login failed!!'),
+                        ),
+                      );
                     }
-                    // Perform login logic here
                   },
                   child: const Text('Login'),
                 ),
