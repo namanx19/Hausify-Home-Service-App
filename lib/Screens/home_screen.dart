@@ -8,7 +8,8 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../utils/constants.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'start.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 class HomeScreen extends StatefulWidget {
   final String? localArea;
@@ -32,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late String _localArea;
   late String _fulladdress;
+  bool _isFetchingLocation = false; // New boolean to track fetching location
 
   @override
   void initState() {
@@ -86,12 +88,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _getCurrentLocation() async {
+    setState(() {
+      _isFetchingLocation = true; // Set fetching location to true when starting fetching
+    });
+
     final hasPermission = await _handleLocationPermission();
-    if (!hasPermission) return;
+    if (!hasPermission) {
+      setState(() {
+        _isFetchingLocation = false; // Set fetching location to false when permission denied
+      });
+      return;
+    }
 
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) async {
       setState(() {
         _localArea = 'Latitude: ${position.latitude}, Longitude: ${position.longitude}';
+        _isFetchingLocation = false;
       });
 
       try {
@@ -107,7 +119,9 @@ class _HomeScreenState extends State<HomeScreen> {
         debugPrint(e.toString());
       }
     }).catchError((e) {
-      debugPrint(e.toString());
+      setState(() {
+        _isFetchingLocation = false; // Set fetching location to false on error
+      });
     });
   }
 
@@ -148,36 +162,40 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Container(
                       color: Colors.white, //TopBar Color
-                      padding: EdgeInsets.fromLTRB(10.0, 18.0, 10.0, 6.0),
+                      padding: const EdgeInsets.fromLTRB(10.0, 18.0, 10.0, 6.0),
                       // padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: const Icon(Icons.location_on, color: kPrimaryColor,),
-                              ),
+                              const Icon(Icons.location_on, color: kPrimaryColor,),
                               const SizedBox(width: 8),
                               GestureDetector(
                                 onTap: _getCurrentLocation,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    _isFetchingLocation
+                                        ? const SpinKitThreeBounce(
+                                      color: kPrimaryColor,
+                                      size: 30.0,
+                                    )
+                                        : Text(
                                       _localArea,
                                       style: kHeadingFontStyle.copyWith(
-                                          fontSize: 14,
-                                          color: kPrimaryColor
+                                        fontSize: 14,
+                                        color: kPrimaryColor,
                                       ),
                                     ),
                                     Text(
                                       _fulladdress,
-                                        style: kContentFontStyle.copyWith(
-                                            fontSize: 12,
-                                            color: Colors.black
-                                        ),
+                                      style: kContentFontStyle.copyWith(
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                      ),
+                                      maxLines: 1, // Limit to a single line
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ],
                                 ),
@@ -195,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(12.0),
                           child: Text(
                             'Hi Naman!',
                             style: kHeadingFontStyle.copyWith(
@@ -204,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(12.0),
                           child: Text(
                             'What services do you need?',
                             style: kContentFontStyle.copyWith(
