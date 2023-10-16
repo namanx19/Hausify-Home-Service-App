@@ -155,14 +155,20 @@ class OnboardingPage extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  style: kHeadingFontStyle.copyWith(
+                    fontSize: 28.0,
+                    color: kPrimaryColor,
+                  ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16),
                 Text(
                   subtitle,
-                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                  style: kContentFontStyle.copyWith(
+                    fontSize: 16.0,
+                    color: Colors.black,
+                  ),
                 ),
-                SizedBox(height: 160,)
+                const SizedBox(height: 160,)
               ],
             ),
           ),

@@ -45,6 +45,15 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Center(
+                    child: Text(
+                      'Sign In',
+                      style: kHeadingFontStyle.copyWith(
+                          fontSize: 24.0,
+                        color: kPrimaryColor
+                      ),
+                    ),
+                  ),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50.0),  // Adjust the radius as needed
@@ -63,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Ionicons.mail, color: kPrimaryColor, size: 20,),
                       labelText: 'Email',
-                      labelStyle: const TextStyle(color: kPrimaryColor, fontSize: 14),  // Set the label text color to red
+                      labelStyle: const TextStyle(color: Colors.black, fontSize: 14),  // Set the label text color to red
                       contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(50.0),
@@ -83,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.lock, color: kPrimaryColor, size: 20,),
                       labelText: 'Password',
-                      labelStyle: const TextStyle(color: kPrimaryColor, fontSize: 14),
+                      labelStyle: const TextStyle(color: Colors.black, fontSize: 14),
                       contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(50.0),
