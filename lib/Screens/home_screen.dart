@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -11,7 +13,7 @@ class HomeScreen extends StatefulWidget {
   final String? newCity;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  HomeScreen({this.localArea, this.cityName, this.newCity});
+  HomeScreen({super.key, this.localArea, this.cityName, this.newCity});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -21,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   int _currentIndex = 0;
   int _carouselIndex = 0;
-  final int _totalCards = 3; // Total number of cards in the carousel
+  final int _totalCards = 8; // Total number of cards in the carousel
   final CarouselController _carouselController = CarouselController();
   late String _imageURL; // Initialize imageURL
 
@@ -32,12 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    print(_localArea);
-    print(_cityName);
-    print(_newCity);
-    if (_localArea == '') {
-      _localArea = 'GIDA';
-    }
+    _localArea = widget.localArea ?? 'GIDA';
+    _cityName = widget.cityName ?? 'Jhungia';
+    _newCity = widget.newCity;
+    print(_localArea); // locality
+    print(_cityName); // city
+    print(_newCity); // state
   }
 
   void onNavItemTapped(int index) {
@@ -45,48 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
       _currentIndex = index;
     });
   }
-
-  // Widget buildTopBar() {
-  //   return Container(
-  //     color: const Color(0xFFEAF6F6),
-  //     padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         Row(
-  //           children: [
-  //             GestureDetector(
-  //               onTap: () {},
-  //               child: const Icon(Icons.location_on),
-  //             ),
-  //             const SizedBox(width: 8),
-  //             Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Text(
-  //                   _localArea ?? 'GIDA',
-  //                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-  //                 ),
-  //                 Text(
-  //                   _cityName ?? '',
-  //                   style: const TextStyle(
-  //                     fontSize: 14,
-  //                     fontWeight: FontWeight.normal,
-  //                     color: Colors.grey,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //         GestureDetector(
-  //           onTap: () {},
-  //           child: const Icon(Icons.notifications),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget buildFragmentContent() {
     // This list is for adding service images inside the Gesture detectors
@@ -127,11 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                _localArea ?? 'GIDA',
+                                _localArea ?? 'Gida',
                                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                _cityName ?? '',
+                                _cityName ?? 'Jhungia',
                                 style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.normal,
@@ -198,11 +158,31 @@ class _HomeScreenState extends State<HomeScreen> {
                           // cardColor: const Color(0xffEAF6F6),
                         ),
                         buildCarouselItem(
-                          imagePath: 'assets/images/facebook.png',
+                          imagePath: 'assets/images/discount2.jpg',
                           // cardColor: const Color(0xffEAF6F6),
                         ),
                         buildCarouselItem(
-                          imagePath: 'assets/images/apple.png',
+                          imagePath: 'assets/images/discount3.jpg',
+                          // cardColor: const Color(0xffEAF6F6),
+                        ),
+                        buildCarouselItem(
+                          imagePath: 'assets/images/discount4.jpg',
+                          // cardColor: const Color(0xffEAF6F6),
+                        ),
+                        buildCarouselItem(
+                          imagePath: 'assets/images/discount5.jpg',
+                          // cardColor: const Color(0xffEAF6F6),
+                        ),
+                        buildCarouselItem(
+                          imagePath: 'assets/images/discount6.jpg',
+                          // cardColor: const Color(0xffEAF6F6),
+                        ),
+                        buildCarouselItem(
+                          imagePath: 'assets/images/discount7.jpg',
+                          // cardColor: const Color(0xffEAF6F6),
+                        ),
+                        buildCarouselItem(
+                          imagePath: 'assets/images/discount8.jpg',
                           // cardColor: const Color(0xffEAF6F6),
                         ),
                         // ... Repeat for other images ...
@@ -210,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       options: CarouselOptions(
                         autoPlay: true,
                         enlargeCenterPage: true,
-                        aspectRatio: 20 / 9,
+                        aspectRatio: 16 / 9,
                         onPageChanged: (index, reason) {
                           setState(() {
                             _carouselIndex = index;
@@ -227,11 +207,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: AnimatedSmoothIndicator(
                         activeIndex: _carouselIndex,
                         count: _totalCards,
-                        effect: const ExpandingDotsEffect(
+                        effect: const WormEffect(
+                          type: WormType.thin,
                           dotHeight: 10,
                           dotWidth: 10,
-                          activeDotColor: Colors.blue,
-                          dotColor: Colors.grey,
+                          activeDotColor: Color(0xffFC8019),
+                          dotColor: Color(0xffFFE6C7),
                         ),
                       ),
                     ),
@@ -255,6 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(right: 16.0),
                           child: TextButton(
                             onPressed: () {
+                              Navigator.pushNamed(context, '/categoryScreen');
                               // Handle 'See All' button tap
                             },
                             child: Text(
@@ -326,7 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
           if (_currentIndex == 1)
-            Padding(
+            const Padding(
               padding: EdgeInsets.zero,
               child: Text(
                   'Cart fragment'
@@ -405,7 +387,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 title: 'Help Center',
                                 onPressed: () {
                                   // Handle Help Center card pressed
-                                  print('Help Center card pressed');
+                                  Navigator.pushNamed(context, '/helpScreen');
                                 },
                               ),
                               const SizedBox(height: 10.0,),
@@ -491,7 +473,7 @@ class _HomeScreenState extends State<HomeScreen> {
           imagePath,
           width: double.infinity,
           height: double.infinity,
-          fit: BoxFit.contain, // Maintain aspect ratio and fit within the card
+          fit: BoxFit.cover, // Maintain aspect ratio and fit within the card
         ),
       ),
     );
@@ -529,7 +511,7 @@ class CircleService extends StatelessWidget {
   final List<String> imageURLs;
   final VoidCallback onTapCallback; // Callback function for onTap
 
-  const CircleService({
+  const CircleService({super.key,
     required this.imageURLs,
     required this.onTapCallback,
   });
@@ -541,7 +523,7 @@ class CircleService extends StatelessWidget {
       child: GestureDetector(
         onTap: onTapCallback, // Call the provided callback function
         child: CircleAvatar(
-          backgroundColor: Color(0xffEEEEEE),
+          backgroundColor: const Color(0xffEEEEEE),
           radius: 44.0,
           child: Container(
             width: 48.0,
