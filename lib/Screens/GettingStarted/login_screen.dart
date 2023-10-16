@@ -164,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         child: Text(
-                          'Register Here',
+                          'Sign Up',
                           style: kContentFontStyle.copyWith(
                             color: kPrimaryColor,
                             fontSize: 15.0,

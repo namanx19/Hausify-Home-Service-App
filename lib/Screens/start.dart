@@ -139,6 +139,7 @@ class _StartPageState extends State<StartPage> {
               textAlign: TextAlign.center,
               style: kContentFontStyle.copyWith(
                 fontSize: 20.0,
+                color: kPrimaryColor,
               ),
             ),
           ),
@@ -183,7 +184,7 @@ class _StartPageState extends State<StartPage> {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
+              backgroundColor: kPrimaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50.0),
               ),
@@ -194,7 +195,7 @@ class _StartPageState extends State<StartPage> {
               'Get Location',
               style: kHeadingFontStyle.copyWith(
                 color: Colors.white,
-                fontWeight: FontWeight.w500,
+                fontSize: 18.0,
               ),
             ),
           ),
@@ -203,7 +204,7 @@ class _StartPageState extends State<StartPage> {
 
           _isFetchingLocation
               ? const SpinKitPulse(
-            color: Colors.green,
+            color: kPrimaryColor,
             size: 50.0,
           )
               : Container(),
@@ -219,9 +220,9 @@ class _StartPageState extends State<StartPage> {
         duration: const Duration(milliseconds: 500),
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: selectedService == index ? Colors.white : Colors.grey.shade100,
+          color: selectedService == index ? kContrastColor : Colors.grey.shade100,
           border: Border.all(
-            color: selectedService == index ? Colors.green : Colors.grey.withOpacity(0),
+            color: selectedService == index ? kPrimaryColor : Colors.grey.withOpacity(0),
             width: 2.0,
           ),
           borderRadius: BorderRadius.circular(15.0),
