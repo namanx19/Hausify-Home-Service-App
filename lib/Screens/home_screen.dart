@@ -41,9 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _localArea = widget.localArea ?? 'GIDA';
     _cityName = widget.cityName ?? 'Jhungia';
-    _newCity = widget.newCity;
-    _country = widget.country;
-    _pincode = widget.pincode;
+    _newCity = widget.newCity ?? 'Uttar Pradesh';
+    _country = widget.country ?? 'India';
+    _pincode = widget.pincode ?? '273209';
 
     _searchbarFocusNode = FocusNode(); // for changing the border color of search bar
   }
@@ -480,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ListTile(
         leading: Icon(
           icon,
-          color: Colors.green,
+          color: kPrimaryColor,
         ),
         title: Text(
           title,
@@ -504,7 +504,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Icon(
         icon,
         size: 30.0,
-        color: _currentIndex == index ? Colors.green : Colors.grey,
+        color: _currentIndex == index ? kPrimaryColor : Colors.grey,
       ),
     );
   }
@@ -540,16 +540,22 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // buildTopBar(),
           buildFragmentContent(),
-          Container(
-            color: const Color(0xFFEAF6F6),
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                buildNavBarIcon(Icons.home, 0),
-                buildNavBarIcon(Icons.shopping_cart, 1),
-                buildNavBarIcon(Icons.person, 2),
-              ],
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF5F5F5),
+                borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  buildNavBarIcon(Icons.home, 0),
+                  buildNavBarIcon(Icons.shopping_cart, 1),
+                  buildNavBarIcon(Icons.person, 2),
+                ],
+              ),
             ),
           ),
         ],
