@@ -32,7 +32,7 @@ class UrbanServ extends StatelessWidget {
           ),
         ),
         // initialRoute: '/checkLogin',
-        initialRoute: '/',
+        initialRoute: '/loginScreen',
         routes: {
           '/': (context) => const OnboardingScreen(),
           '/start': (context) => const StartPage(),
