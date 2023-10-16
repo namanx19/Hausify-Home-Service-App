@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 15.0,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                   const SizedBox(

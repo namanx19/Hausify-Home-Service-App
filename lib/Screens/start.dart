@@ -40,6 +40,8 @@ class _StartPageState extends State<StartPage> {
   String? localArea;
   String? cityName;
   String? newCity;
+  String? country;
+  String? pincode;
 
   bool _isFetchingLocation = false;
 
@@ -88,6 +90,8 @@ class _StartPageState extends State<StartPage> {
           cityName = placemark.locality;
           localArea = placemark.subLocality;
           newCity = placemark.administrativeArea; //dummy var
+          country = placemark.country;
+          pincode = placemark.postalCode;
         }
       } catch (e) {
         debugPrint(e.toString());
@@ -179,6 +183,8 @@ class _StartPageState extends State<StartPage> {
                     localArea: localArea,
                     cityName: cityName,
                     newCity: newCity,
+                    country: country,
+                    pincode: pincode,
                   ),
                 ),
               );
