@@ -38,10 +38,7 @@ class _StartPageState extends State<StartPage> {
   String? _currentAddress;
   Position? _currentPosition;
   String? localArea;
-  String? cityName;
-  String? newCity;
-  String? country;
-  String? pincode;
+  String? fulladdress;
 
   bool _isFetchingLocation = false;
 
@@ -86,12 +83,8 @@ class _StartPageState extends State<StartPage> {
         List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
         if (placemarks.isNotEmpty) {
           Placemark placemark = placemarks[0];
-          _currentAddress = "${placemark.locality}, ${placemark.administrativeArea}";
-          cityName = placemark.locality;
           localArea = placemark.subLocality;
-          newCity = placemark.administrativeArea; //dummy var
-          country = placemark.country;
-          pincode = placemark.postalCode;
+          fulladdress = "${placemark.locality}, ${placemark.administrativeArea}, ${placemark.country}, ${placemark.postalCode}" ?? '';
         }
       } catch (e) {
         debugPrint(e.toString());
@@ -181,10 +174,7 @@ class _StartPageState extends State<StartPage> {
                 MaterialPageRoute(
                   builder: (context) => HomeScreen(
                     localArea: localArea,
-                    cityName: cityName,
-                    newCity: newCity,
-                    country: country,
-                    pincode: pincode,
+                    fulladdress: fulladdress,
                   ),
                 ),
               );

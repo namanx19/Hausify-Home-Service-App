@@ -2,21 +2,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../utils/constants.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'start.dart';
 
 class HomeScreen extends StatefulWidget {
   final String? localArea;
-  final String? cityName;
-  final String? newCity;
-  final String? country;
-  final String? pincode;
+  final String? fulladdress;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
-  HomeScreen({super.key, this.localArea, this.cityName, this.newCity, this.country, this.pincode});
+  HomeScreen({super.key, this.localArea, this.fulladdress});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -30,21 +30,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final CarouselController _carouselController = CarouselController();
   late String _imageURL; // Initialize imageURL
 
-  String? _localArea;
-  String? _cityName;
-  String? _newCity;
-  String? _country;
-  String? _pincode;
+  late String _localArea;
+  late String _fulladdress;
 
   @override
   void initState() {
     super.initState();
-    _localArea = widget.localArea ?? 'GIDA';
-    _cityName = widget.cityName ?? 'Jhungia';
-    _newCity = widget.newCity ?? 'Uttar Pradesh';
-    _country = widget.country ?? 'India';
-    _pincode = widget.pincode ?? '273209';
-
+    _localArea = widget.localArea ?? 'Get Current Location!';
+    _fulladdress = widget.fulladdress ?? 'Tap to fetch';
     _searchbarFocusNode = FocusNode(); // for changing the border color of search bar
   }
 
@@ -61,6 +54,63 @@ class _HomeScreenState extends State<HomeScreen> {
       _currentIndex = index;
     });
   }
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Location services are disabled. Please enable the services')));
+      return false;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<void> _getCurrentLocation() async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
+
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) async {
+      setState(() {
+        _localArea = 'Latitude: ${position.latitude}, Longitude: ${position.longitude}';
+      });
+
+      try {
+        List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+        if (placemarks.isNotEmpty) {
+          Placemark placemark = placemarks[0];
+          setState(() {
+            _localArea = placemark.subLocality ?? 'Tap to Fetch Location!';
+            _fulladdress = "${placemark.locality}, ${placemark.administrativeArea}, ${placemark.country}, ${placemark.postalCode}" ?? '';
+          });
+        }
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    }).catchError((e) {
+      debugPrint(e.toString());
+    });
+  }
+
 
   Widget buildFragmentContent() {
     // This list is for adding service images inside the Gesture detectors
@@ -110,24 +160,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: const Icon(Icons.location_on, color: kPrimaryColor,),
                               ),
                               const SizedBox(width: 8),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    _localArea ?? 'Gida',
-                                    style: kHeadingFontStyle.copyWith(
-                                      fontSize: 14,
-                                      color: kPrimaryColor
-                                    )
-                                  ),
-                                  Text(
-                                    '$_cityName, $_newCity, $_country, $_pincode',
-                                      style: kContentFontStyle.copyWith(
-                                          fontSize: 12,
-                                          color: Colors.black
+                              GestureDetector(
+                                onTap: _getCurrentLocation,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      _localArea,
+                                      style: kHeadingFontStyle.copyWith(
+                                          fontSize: 14,
+                                          color: kPrimaryColor
                                       ),
-                                  ),
-                                ],
+                                    ),
+                                    Text(
+                                      _fulladdress,
+                                        style: kContentFontStyle.copyWith(
+                                            fontSize: 12,
+                                            color: Colors.black
+                                        ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -497,16 +550,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildNavBarIcon(IconData icon, int index) {
-    return GestureDetector(
-      onTap: () {
-        onNavItemTapped(index);
-      },
-      child: Icon(
-        icon,
-        size: 30.0,
-        color: _currentIndex == index ? kPrimaryColor : Colors.grey,
-      ),
-    );
+    if (index == 0) {
+      return GestureDetector(
+        onTap: _getCurrentLocation,
+        child: Icon(
+          icon,
+          size: 30.0,
+          color: _currentIndex == index ? kPrimaryColor : Colors.grey,
+        ),
+      );
+    } else {
+      return GestureDetector(
+        onTap: () {
+          onNavItemTapped(index);
+        },
+        child: Icon(
+          icon,
+          size: 30.0,
+          color: _currentIndex == index ? kPrimaryColor : Colors.grey,
+        ),
+      );
+    }
   }
 
   Widget buildCarouselItem({
