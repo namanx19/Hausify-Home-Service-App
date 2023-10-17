@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:urbanserv/utils/constants.dart';
+import 'package:urbanserv/Screens/home_screen.dart';
 
 class HelpScreen extends StatelessWidget {
   const HelpScreen({Key? key});
@@ -8,23 +9,16 @@ class HelpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Help Center',
-          style: kHeadingFontStyle.copyWith(fontSize: 24.0),
-        ),
-        backgroundColor: const Color(0xFFEAF6F6),
-        centerTitle: true,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const fragmentTopBar(
+              topBarText: 'Help Center',
+            ),
             const SizedBox(height: 20.0),
             Center(
                child: Padding(
-                 padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
+                 padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
                  child: Image.asset(
                      'assets/images/helpscreenicon.png',
                  ),
@@ -43,32 +37,42 @@ class HelpScreen extends StatelessWidget {
             const ListTile(
                 leading: Icon(
                   Ionicons.timer,
-                color: Colors.black,
+                color: Color(0xffC70039),
               ),
               title: Text('On time services'),
             ),
             const ListTile(
               leading: Icon(
                   Ionicons.hand_left,
-                color: Colors.black,
+                color: Color(0xffEAD7BB),
               ),
               title: Text('Quality services & Affordable prices'),
             ),
             const ListTile(
               leading: Icon(
                   Ionicons.trophy,
-                color: Colors.black,
+                color: Color(0xffFFCC70),
               ),
               title: Text('KHDA Certified Professionals'),
             ),
             const ListTile(
               leading: Icon(
                   Ionicons.shield_checkmark,
-                color: Colors.black,
+                color: Color(0xff088395),
               ),
               title: Text('Safe and Hygienic NBSP Services'),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Container(
+              width: double.infinity,
+              height: 5.0,
+              color: kSeperatorColor,
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Align(
@@ -82,7 +86,7 @@ class HelpScreen extends StatelessWidget {
             const ListTile(
               leading: Icon(
                   Ionicons.call,
-                color: Colors.black,
+                color: Colors.green,
               ),
               title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +97,17 @@ class HelpScreen extends StatelessWidget {
               ],
             ),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(
+              height: 20.0,
+            ),
+            Container(
+              width: double.infinity,
+              height: 5.0,
+              color: kSeperatorColor,
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Align(
@@ -107,16 +121,24 @@ class HelpScreen extends StatelessWidget {
             const ListTile(
               leading: Icon(
                   Ionicons.logo_instagram,
-                color: Colors.black,
+                color: Colors.pink,
               ),
               title: Text('Instagram'),
             ),
             const ListTile(
               leading: Icon(
                   Ionicons.logo_twitter,
-                color: Colors.black,
+                color: Colors.blue,
               ),
               title: Text('Twitter'),
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            Container(
+              width: double.infinity,
+              height: 5.0,
+              color: kSeperatorColor,
             ),
           ],
         ),
