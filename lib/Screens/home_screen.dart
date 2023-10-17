@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildFragmentContent() {
     // This list is for adding service images inside the Gesture detectors
-    List<String> serviceImageURLs = [
+    List<String> serviceCatImageURLs = [
       'https://cdn-icons-png.flaticon.com/512/5612/5612846.png',
       'https://cdn-icons-png.flaticon.com/512/2025/2025470.png',
       'https://cdn-icons-png.flaticon.com/512/3343/3343641.png', // Image URL for the first service
@@ -156,10 +156,9 @@ class _HomeScreenState extends State<HomeScreen> {
       'https://cdn-icons-png.flaticon.com/512/4635/4635163.png', // Image URL for the second service
       'https://cdn-icons-png.flaticon.com/512/6008/6008918.png', // Image URL for the third service
       'https://cdn-icons-png.flaticon.com/512/3531/3531568.png', // Image URL for the fourth service
-
     ];
 
-    List<String> serviceNames = [
+    List<String> serviceCatNames = [
       'Pest Control',
       'Salon/SPA',
       'Cleaning',
@@ -167,6 +166,34 @@ class _HomeScreenState extends State<HomeScreen> {
       'Plumbing',
       'Electrician',
       'Carpenter',
+    ];
+
+    List<String> serviceMostImageURLs = [
+      'https://cdn-icons-png.flaticon.com/512/911/911409.png',
+      'https://cdn-icons-png.flaticon.com/512/2470/2470595.png',
+      'https://cdn-icons-png.flaticon.com/512/6008/6008918.png',
+    ];
+
+    List<String> serviceMostNames = [
+      'Appliance Repair',
+      'Maid',
+      'Electrician',
+    ];
+
+    List<String> serviceWomenImageURLs = [
+      'https://cdn-icons-png.flaticon.com/512/4192/4192022.png',
+      'https://cdn-icons-png.flaticon.com/512/1802/1802113.png',
+      'https://cdn-icons-png.flaticon.com/512/3461/3461972.png',
+      'https://cdn-icons-png.flaticon.com/512/856/856612.png',
+      'https://cdn-icons-png.flaticon.com/512/3461/3461961.png',
+    ];
+
+    List<String> serviceWomenNames = [
+      'Waxing',
+      'Haircut'
+      'Manicure',
+      'Facial',
+      'Pedicure',
     ];
 
 
@@ -409,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Column(
                                       children: [
                                         SquareCardService(
-                                          imageURLs: [serviceImageURLs[i]],
+                                          imageURLs: [serviceCatImageURLs[i]],
                                           onTapCallback: () {
                                             // Provide different functionality based on the category index (i)
                                             switch (i) {
@@ -443,7 +470,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           },
                                         ),
                                         Text(
-                                          serviceNames[i],
+                                          serviceCatNames[i],
                                           style: kContentFontStyle.copyWith(
                                             fontSize: 12.0,     //End of services by category
                                           ),
@@ -472,6 +499,35 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0,
                             ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              for (int i = 0; i < 3; i++) ...[
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Column(
+                                    children: [
+                                      SquareCardService(
+                                        imageURLs: [serviceMostImageURLs[i]],
+                                        onTapCallback: () {
+                                          // Provide different functionality based on the category index (i)
+                                        },
+                                      ),
+                                      Text(
+                                        serviceMostNames[i],
+                                        style: kContentFontStyle.copyWith(
+                                          fontSize: 12.0,     //End of services by category
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
                         ),
                         const SizedBox(
