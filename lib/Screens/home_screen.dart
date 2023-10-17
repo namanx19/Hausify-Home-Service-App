@@ -210,11 +210,11 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     List<String> serviceBuyNames = [
-      'RO Purifier',
+      'Water Purifier',
       'Smart Lock',
-      'Appliance',
+      'Appliances',
       'Gadgets',
-      'Furniture',
+      'Furnitures',
     ];
 
     final int buyItems = serviceBuyImageURLs.length;
@@ -593,6 +593,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             GestureDetector(
                               child: const Icon(CupertinoIcons.right_chevron),
+                              onTap: (){
+                                Navigator.pushNamed(context, '/refundScreen');
+                              },
                             )
                           ],
                         ),

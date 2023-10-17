@@ -16,6 +16,16 @@ class TroubleshootScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Center(
+                      child: Image.network(
+                        'https://cdn-icons-png.flaticon.com/512/7910/7910582.png',
+                        height: 220,
+                        width: 220,
+                      ),
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
                   const Text(
                     'Encountering Issues?',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

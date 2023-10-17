@@ -5,11 +5,13 @@ import 'package:urbanserv/Screens/GettingStarted/login_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/ob_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/registration_screen.dart';
 import 'package:urbanserv/Screens/home_screen.dart';
+import 'package:urbanserv/Screens/refund_screen.dart';
 import 'package:urbanserv/Screens/start.dart';
 import 'package:urbanserv/Screens/categoryscreen.dart';
 import 'package:urbanserv/Screens/ProfileSection/help_screen.dart';
 import 'Screens/schedule.dart';
 import 'package:urbanserv/Screens/ProfileSection/troubleshoot_screen.dart';
+import 'package:urbanserv/Screens/refund_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +47,7 @@ class UrbanServ extends StatelessWidget {
           '/scheduleScreen' : (context)=> ScheduleScreen(),
           '/helpScreen' : (context)=> HelpScreen(),
           '/troubleshootScreen': (context) => TroubleshootScreen(),
+          '/refundScreen' : (context) => RefundScreen(),
           '/checkLogin': (context) => FutureBuilder(
             future: _auth.getCurrentUser(),
             builder: (context, AsyncSnapshot<User?> userSnapshot) {
