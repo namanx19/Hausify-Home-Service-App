@@ -11,10 +11,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
+
+
 class HomeScreen extends StatefulWidget {
   final String? localArea;
   final String? fulladdress;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+
 
 
   HomeScreen({super.key, this.localArea, this.fulladdress});
@@ -30,10 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
   final int _totalCards = 8; // Total number of cards in the carousel
   final CarouselController _carouselController = CarouselController();
   late String _imageURL; // Initialize imageURL
-
+  late String username;
   late String _localArea;
   late String _fulladdress;
   bool _isFetchingLocation = false; // New boolean to track fetching location
+
 
   @override
   void initState() {
@@ -41,10 +46,25 @@ class _HomeScreenState extends State<HomeScreen> {
     _localArea = widget.localArea ?? 'Get Current Location!';
     _fulladdress = widget.fulladdress ?? 'Tap to fetch';
     _searchbarFocusNode = FocusNode(); // for changing the border color of search bar
+    final user = _auth.currentUser;
+    if (user != null) {
+      // Check if the user has a display name
+      if (user.displayName != null) {
+        // Split the display name by space and take the first part as the username
+        final parts = user.displayName?.split(' ');
+        username = parts![0];
+      } else {
+        // If there's no display name, you can use the email as a username or customize it as needed
+        username = 'Potato';
+      }
+    } else {
+      // Handle the case where there is no authenticated user
+      username = "Guest"; // or show an error message
+    }
   }
 
   late FocusNode _searchbarFocusNode; // for changing the border color of search bar
-  
+
   @override // for changing the border color of search bar
   void dispose() {
     _searchbarFocusNode.dispose();
@@ -149,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'Carpenter',
     ];
 
+
     return Expanded(
       child: GestureDetector(
         onTap: (){
@@ -179,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     _isFetchingLocation
                                         ? const SpinKitThreeBounce(
                                       color: kPrimaryColor,
-                                      size: 30.0,
+                                      size: 18.0,
                                     )
                                         : Text(
                                       _localArea,
@@ -209,13 +230,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 5.0,
+                      color: kSeperatorColor,
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
                           child: Text(
-                            'Hi Naman!',
+                            'Hi $username!',
                             style: kHeadingFontStyle.copyWith(
                               fontSize: 22.0,
                             ),
@@ -224,10 +253,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Text(
-                            'What services do you need?',
-                            style: kContentFontStyle.copyWith(
-                              fontSize: 18.0,
-                            )
+                              'What services do you need?',
+                              style: kContentFontStyle.copyWith(
+                                fontSize: 18.0,
+                              )
                           ),
                         ),
                         Padding(
@@ -316,12 +345,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               dotHeight: 10,
                               dotWidth: 10,
                               activeDotColor: kPrimaryColor,
-                              dotColor: kContrastColor,
+                              dotColor: kContrastColor,     //End of carousel slider 1st card
                             ),
                           ),
                         ),
                         const SizedBox(
-                          height: 16.0,
+                          height: 24.0,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 5.0,
+                          color: kSeperatorColor,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -332,41 +366,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                 'Services by category',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18.0,
+                                  fontSize: 16.0,
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/categoryScreen');
-                                },
-                                style: ButtonStyle(
-                                  overlayColor: MaterialStateProperty.resolveWith<Color>(
-                                        (Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.pressed)) {
-                                        return kContrastColor;  // Color when pressed
-                                      }
-                                      return Colors.transparent;  // Default color
-                                    },
+                                padding: const EdgeInsets.only(right: 6.0),
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/categoryScreen');
+                                  },
+                                  style: ButtonStyle(
+                                    overlayColor: MaterialStateProperty.resolveWith<Color>(
+                                          (Set<MaterialState> states) {
+                                        if (states.contains(MaterialState.pressed)) {
+                                          return kContrastColor;  // Color when pressed
+                                        }
+                                        return Colors.transparent;  // Default color
+                                      },
+                                    ),
                                   ),
-                                ),
-                                child: Text(
-                                  'See All',
-                                  style: kContentFontStyle.copyWith(
-                                    color: kPrimaryColor,
-                                    fontSize: 16.0,
+                                  child: Text(
+                                    'See All',
+                                    style: kContentFontStyle.copyWith(
+                                      color: kPrimaryColor,
+                                      fontSize: 16.0,
+                                    ),
                                   ),
-                                ),
-                              )
+                                )
                             ),
                           ],
                         ),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: Row(
                               children: [
                                 for (int i = 0; i < 7; i++) ...[
@@ -399,7 +433,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               // Handle tap for the third category
                                                 print('Tapped category 5');
                                                 break;
-                                                case 5:
+                                              case 5:
                                               // Handle tap for the third category
                                                 print('Tapped category 6');
                                                 break;
@@ -411,7 +445,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Text(
                                           serviceNames[i],
                                           style: kContentFontStyle.copyWith(
-                                            fontSize: 12.0,
+                                            fontSize: 12.0,     //End of services by category
                                           ),
                                         ),
                                       ],
@@ -419,6 +453,166 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ],
                               ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 5.0,
+                          color: kSeperatorColor,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
+                          child: Text(
+                            'Most Booked Services',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 5.0,
+                          color: kSeperatorColor,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
+                          child: Text(
+                            'Women Salon',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 5.0,
+                          color: kSeperatorColor,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
+                          child: Text(
+                            'Buy Products',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 5.0,
+                          color: kSeperatorColor,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
+                          child: Text(
+                            'New and Noteworthy',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 5.0,
+                          color: kSeperatorColor,
+                        ),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
+                          child: Text(
+                            'Offers',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              // side: const BorderSide(
+                              //   color: kPrimaryColor, // Set the border color here
+                              //   width: 1.0, // Set the border width
+                              // ),// Adjust the radius as needed
+                            ),
+                            elevation: 0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                              child: AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: Image.asset(
+                                    'assets/images/lastbanner.jpg',
+                                    fit: BoxFit.cover,          //end of last banner
+                                  )
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 5.0,
+                          color: kSeperatorColor,
+                        ),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
+                          child: Text(
+                            'Refer & Earn',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              side: const BorderSide(
+                                color: kPrimaryColor, // Set the border color here
+                                width: 1.0, // Set the border width
+                              ),// Adjust the radius as needed
+                            ),
+                            elevation: 0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                              child: AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: Image.asset(
+                                    'assets/images/referbanner.jpg',
+                                    fit: BoxFit.cover,          //end of refer banner
+                                  )
+                              ),
                             ),
                           ),
                         ),
@@ -512,6 +706,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   const SizedBox(height: 10.0,),
                                   buildCard(
+                                    icon: Ionicons.help_circle,
+                                    title: 'TroubleShoot',
+                                    onPressed: () {
+
+                                    },
+                                  ),
+                                  const SizedBox(height: 10.0,),
+                                  buildCard(
                                     icon: Ionicons.log_out,
                                     title: 'Logout',
                                     onPressed: () async {
@@ -570,7 +772,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget buildNavBarIcon(IconData icon, int index) {
     if (index == 0) {
       return GestureDetector(
-        onTap: _getCurrentLocation,
+        onTap: () {
+          onNavItemTapped(index);
+        },
         child: Icon(
           icon,
           size: 30.0,

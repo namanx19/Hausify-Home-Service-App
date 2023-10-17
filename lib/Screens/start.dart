@@ -19,18 +19,21 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+
   List<Service> services = [
     // List of services...
-    Service('Cleaning', 'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-cleaning-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png'),
-    Service('Plumber', 'https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/2x/external-plumber-labour-day-vitaliy-gorbachev-flat-vitaly-gorbachev.png'),
-    Service('Electrician', 'https://img.icons8.com/external-wanicon-flat-wanicon/2x/external-multimeter-car-service-wanicon-flat-wanicon.png'),
-    Service('Painter', 'https://img.icons8.com/external-itim2101-flat-itim2101/2x/external-painter-male-occupation-avatar-itim2101-flat-itim2101.png'),
-    Service('Carpenter', 'https://img.icons8.com/fluency/2x/drill.png'),
-    Service('Gardener', 'https://img.icons8.com/external-itim2101-flat-itim2101/2x/external-gardener-male-occupation-avatar-itim2101-flat-itim2101.png'),
-    Service('Tailor', 'https://img.icons8.com/fluency/2x/sewing-machine.png'),
-    Service('Maid', 'https://img.icons8.com/color/2x/housekeeper-female.png'),
-    Service('Driver', 'https://img.icons8.com/external-sbts2018-lineal-color-sbts2018/2x/external-driver-women-profession-sbts2018-lineal-color-sbts2018.png'),
+    Service('Cleaning', 'https://cdn-icons-png.flaticon.com/512/3343/3343641.png'),
+    Service('Plumber', 'https://cdn-icons-png.flaticon.com/512/4635/4635163.png'),
+    Service('Electrician', 'https://cdn-icons-png.flaticon.com/512/6008/6008918.png'),
+    Service('Painter', 'https://cdn-icons-png.flaticon.com/512/681/681531.png'),
+    Service('Carpenter', 'https://cdn-icons-png.flaticon.com/512/3531/3531568.png'),
+    Service('Gardener', 'https://cdn-icons-png.flaticon.com/512/2316/2316118.png'),
+    Service('Tailor', 'https://cdn-icons-png.flaticon.com/512/6920/6920474.png'),
+    Service('Maid', 'https://cdn-icons-png.flaticon.com/512/2470/2470595.png'),
+    Service('Driver', 'https://cdn-icons-png.flaticon.com/512/3270/3270997.png'),
   ];
+
+
 
   int selectedService = 4;
   double? latitude;
@@ -216,7 +219,7 @@ class _StartPageState extends State<StartPage> {
         duration: const Duration(milliseconds: 500),
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: selectedService == index ? kContrastColor : Colors.grey.shade100,
+          color: selectedService == index ? Colors.white : Colors.grey.shade100,
           border: Border.all(
             color: selectedService == index ? kPrimaryColor : Colors.grey.withOpacity(0),
             width: 2.0,
@@ -226,9 +229,9 @@ class _StartPageState extends State<StartPage> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.network(image, height: 30),
-              const SizedBox(height: 10,),
-              Text(name, style: textStyle,)
+              Image.network(image, height: 44, width: 44,),
+              const SizedBox(height: 6,),
+              Text(name, style: kContentFontStyle.copyWith(fontSize: 10),)
             ]
         ),
       ),
