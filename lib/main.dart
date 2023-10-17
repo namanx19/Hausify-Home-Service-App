@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:urbanserv/Screens/GettingStarted/login_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/ob_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/registration_screen.dart';
+import 'package:urbanserv/Screens/cat.dart';
 import 'package:urbanserv/Screens/home_screen.dart';
 import 'package:urbanserv/Screens/refund_screen.dart';
 import 'package:urbanserv/Screens/start.dart';
@@ -44,6 +45,7 @@ class UrbanServ extends StatelessWidget {
           '/registrationScreen': (context) => RegistrationScreen(),
           '/homescreen': (context) => HomeScreen(),
           '/categoryScreen' : (context) => CategoryScreen(),
+          '/cat' : (context) => MyApp(),
           '/scheduleScreen' : (context)=> ScheduleScreen(),
           '/helpScreen' : (context)=> HelpScreen(),
           '/troubleshootScreen': (context) => TroubleshootScreen(),

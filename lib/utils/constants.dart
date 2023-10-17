@@ -101,20 +101,30 @@ class SquareCardService extends StatelessWidget {
     );
   }
 }
-//New List of Service with updated images
-// List<Service> services = [
-//   // List of services...
-//   Service('Cleaning', 'https://cdn-icons-png.flaticon.com/512/3343/3343641.png'),
-//   Service('Plumber', 'https://cdn-icons-png.flaticon.com/512/4635/4635163.png'),
-//   Service('Electrician', 'https://cdn-icons-png.flaticon.com/512/6008/6008918.png'),
-//   Service('Painter', 'https://cdn-icons-png.flaticon.com/512/681/681531.png'),
-//   Service('Carpenter', 'https://cdn-icons-png.flaticon.com/512/3531/3531568.png'),
-//   Service('Gardener', 'https://cdn-icons-png.flaticon.com/512/2316/2316118.png'),
-//   Service('Tailor', 'https://cdn-icons-png.flaticon.com/512/6920/6920474.png'),
-//   Service('Maid', 'https://cdn-icons-png.flaticon.com/512/2470/2470595.png'),
-//   Service('Driver', 'https://cdn-icons-png.flaticon.com/512/3270/3270997.png'),
-//   Service('Salon/SPA', 'https://cdn-icons-png.flaticon.com/512/2025/2025470.png'),
-//   Service('Pest Control', 'https://cdn-icons-png.flaticon.com/512/5612/5612846.png'),
-//   Service('AC & Appliance Repair', 'https://cdn-icons-png.flaticon.com/512/911/911409.png'),
-//   Service('Gadgets Repair', 'https://cdn-icons-png.flaticon.com/512/3659/3659899.png'),
-// ];
+
+
+
+// New List of Service with updated images
+List<Service> services = [
+  // List of services...
+  Service('Cleaning', 'https://cdn-icons-png.flaticon.com/512/3343/3343641.png'),
+  Service('Plumber', 'https://cdn-icons-png.flaticon.com/512/4635/4635163.png'),
+  Service('Electrician', 'https://cdn-icons-png.flaticon.com/512/6008/6008918.png'),
+  Service('Painter', 'https://cdn-icons-png.flaticon.com/512/681/681531.png'),
+  Service('Carpenter', 'https://cdn-icons-png.flaticon.com/512/3531/3531568.png'),
+  Service('Gardener', 'https://cdn-icons-png.flaticon.com/512/2316/2316118.png'),
+  Service('Tailor', 'https://cdn-icons-png.flaticon.com/512/6920/6920474.png'),
+  Service('Maid', 'https://cdn-icons-png.flaticon.com/512/2470/2470595.png'),
+  Service('Driver', 'https://cdn-icons-png.flaticon.com/512/3270/3270997.png'),
+  Service('Salon', 'https://cdn-icons-png.flaticon.com/512/1057/1057470.png'),
+  Service('Spa', 'https://cdn-icons-png.flaticon.com/512/2377/2377308.png'),
+  Service('Pest Control', 'https://cdn-icons-png.flaticon.com/512/5612/5612846.png'),
+  Service('Appliance Repair', 'https://cdn-icons-png.flaticon.com/512/911/911409.png'),
+  Service('Gadgets Repair', 'https://cdn-icons-png.flaticon.com/512/3659/3659899.png'),
+  Service('Maid', 'https://cdn-icons-png.flaticon.com/512/2470/2470595.png'),
+  Service('Waxing', 'https://cdn-icons-png.flaticon.com/512/4192/4192022.png'),
+  Service('Haircut', 'https://cdn-icons-png.flaticon.com/512/1802/1802113.png'),
+  Service('Manicure', 'https://cdn-icons-png.flaticon.com/512/3461/3461972.png'),
+  Service('Facial', 'https://cdn-icons-png.flaticon.com/512/856/856612.png'),
+  Service('Pedicure', 'https://cdn-icons-png.flaticon.com/512/3461/3461961.png'),
+];
