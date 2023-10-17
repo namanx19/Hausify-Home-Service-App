@@ -168,6 +168,8 @@ class _HomeScreenState extends State<HomeScreen> {
       'Carpenter',
     ];
 
+    final int serviceItems = serviceCatImageURLs.length;
+
     List<String> serviceMostImageURLs = [
       'https://cdn-icons-png.flaticon.com/512/911/911409.png',
       'https://cdn-icons-png.flaticon.com/512/2470/2470595.png',
@@ -180,6 +182,8 @@ class _HomeScreenState extends State<HomeScreen> {
       'Electrician',
     ];
 
+    final int mostItems = serviceMostImageURLs.length;
+
     List<String> serviceWomenImageURLs = [
       'https://cdn-icons-png.flaticon.com/512/4192/4192022.png',
       'https://cdn-icons-png.flaticon.com/512/1802/1802113.png',
@@ -190,12 +194,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
     List<String> serviceWomenNames = [
       'Waxing',
-      'Haircut'
+      'Haircut',
       'Manicure',
       'Facial',
       'Pedicure',
     ];
 
+    final int womenItems = serviceWomenImageURLs.length;
+
+    List<String> serviceBuyImageURLs = [
+      'https://cdn-icons-png.flaticon.com/512/4992/4992693.png',
+      'https://cdn-icons-png.flaticon.com/512/2516/2516211.png',
+      'https://cdn-icons-png.flaticon.com/512/3659/3659950.png',
+      'https://cdn-icons-png.flaticon.com/512/3731/3731057.png',
+      'https://cdn-icons-png.flaticon.com/512/1198/1198368.png',
+    ];
+
+    List<String> serviceBuyNames = [
+      'RO Purifier',
+      'Smart Lock',
+      'Appliance',
+      'Gadgets',
+      'Furniture',
+    ];
+
+    final int buyItems = serviceBuyImageURLs.length;
 
     return Expanded(
       child: GestureDetector(
@@ -384,7 +407,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 5.0,
                           color: kSeperatorColor,
                         ),
-                        Row(
+                        Row(                            //Services by category Heading
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Padding(
@@ -424,13 +447,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        SingleChildScrollView(
+                        SingleChildScrollView(              //Services by category Scroll View
                           scrollDirection: Axis.horizontal,
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Row(
                               children: [
-                                for (int i = 0; i < 7; i++) ...[
+                                for (int i = 0; i < serviceItems; i++) ...[
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                     child: Column(
@@ -491,7 +514,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 5.0,
                           color: kSeperatorColor,
                         ),
-                        const Padding(
+                        const Padding(                    //Most Booked Heading
                           padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
                           child: Text(
                             'Most Booked Services',
@@ -501,12 +524,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        Padding(
+                        Padding(                         //Most Booked Heading
                           padding: const EdgeInsets.all(4.0),
                           child: Row(
                             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              for (int i = 0; i < 3; i++) ...[
+                              for (int i = 0; i < mostItems; i++) ...[
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                   child: Column(
@@ -520,7 +543,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Text(
                                         serviceMostNames[i],
                                         style: kContentFontStyle.copyWith(
-                                          fontSize: 12.0,     //End of services by category
+                                          fontSize: 12.0,     //End of most booked category
                                         ),
                                       ),
                                     ],
@@ -538,13 +561,43 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 5.0,
                           color: kSeperatorColor,
                         ),
-                        const Padding(
+                        const Padding(                  //Women Salon Heading
                           padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
                           child: Text(
                             'Women Salon',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0,
+                            ),
+                          ),
+                        ),
+                        SingleChildScrollView(              //Women Salon Scroll View
+                          scrollDirection: Axis.horizontal,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              children: [
+                                for (int i = 0; i < womenItems; i++) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Column(
+                                      children: [
+                                        SquareCardService(
+                                          imageURLs: [serviceWomenImageURLs[i]],
+                                          onTapCallback: () {
+                                          },
+                                        ),
+                                        Text(
+                                          serviceWomenNames[i],
+                                          style: kContentFontStyle.copyWith(
+                                            fontSize: 12.0,     //End of women salon category
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ],
                             ),
                           ),
                         ),
@@ -566,21 +619,33 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 16.0,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 5.0,
-                          color: kSeperatorColor,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
-                          child: Text(
-                            'New and Noteworthy',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
+                        SingleChildScrollView(              //Buy Products Scroll View
+                          scrollDirection: Axis.horizontal,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              children: [
+                                for (int i = 0; i < buyItems; i++) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Column(
+                                      children: [
+                                        SquareCardService(
+                                          imageURLs: [serviceBuyImageURLs[i]],
+                                          onTapCallback: () {
+                                          },
+                                        ),
+                                        Text(
+                                          serviceBuyNames[i],
+                                          style: kContentFontStyle.copyWith(
+                                            fontSize: 12.0,     //End of buy products scroll view
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ],
                             ),
                           ),
                         ),
