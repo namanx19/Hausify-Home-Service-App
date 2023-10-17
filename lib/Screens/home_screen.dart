@@ -853,7 +853,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     icon: Ionicons.help_circle,
                                     title: 'TroubleShoot',
                                     onPressed: () {
-
+                                      Navigator.pushNamed(context, '/troubleshootScreen');
                                     },
                                   ),
                                   const SizedBox(height: 10.0,),

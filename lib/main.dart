@@ -9,6 +9,7 @@ import 'package:urbanserv/Screens/start.dart';
 import 'package:urbanserv/Screens/categoryscreen.dart';
 import 'package:urbanserv/Screens/ProfileSection/help_screen.dart';
 import 'Screens/schedule.dart';
+import 'package:urbanserv/Screens/ProfileSection/troubleshoot_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +44,7 @@ class UrbanServ extends StatelessWidget {
           '/categoryScreen' : (context) => CategoryScreen(),
           '/scheduleScreen' : (context)=> ScheduleScreen(),
           '/helpScreen' : (context)=> HelpScreen(),
+          '/troubleshootScreen': (context) => TroubleshootScreen(),
           '/checkLogin': (context) => FutureBuilder(
             future: _auth.getCurrentUser(),
             builder: (context, AsyncSnapshot<User?> userSnapshot) {
