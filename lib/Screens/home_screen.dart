@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:geocoding/geocoding.dart';
@@ -10,16 +11,10 @@ import 'package:ionicons/ionicons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-
-
-
 class HomeScreen extends StatefulWidget {
   final String? localArea;
   final String? fulladdress;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-
-
 
   HomeScreen({super.key, this.localArea, this.fulladdress});
 
@@ -35,6 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final CarouselController _carouselController = CarouselController();
   late String _imageURL; // Initialize imageURL
   late String username;
+  late String? _fullname;
+  late String? _profileImageURL;
   late String _localArea;
   late String _fulladdress;
   bool _isFetchingLocation = false; // New boolean to track fetching location
@@ -47,6 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _fulladdress = widget.fulladdress ?? 'Tap to fetch';
     _searchbarFocusNode = FocusNode(); // for changing the border color of search bar
     final user = _auth.currentUser;
+    _fullname = user?.displayName;
+    _profileImageURL = user?.photoURL;
     if (user != null) {
       // Check if the user has a display name
       if (user.displayName != null) {
@@ -171,14 +170,14 @@ class _HomeScreenState extends State<HomeScreen> {
     final int serviceItems = serviceCatImageURLs.length;
 
     List<String> serviceMostImageURLs = [
-      'https://cdn-icons-png.flaticon.com/512/911/911409.png',
       'https://cdn-icons-png.flaticon.com/512/2470/2470595.png',
+      'https://cdn-icons-png.flaticon.com/512/911/911409.png',
       'https://cdn-icons-png.flaticon.com/512/6008/6008918.png',
     ];
 
     List<String> serviceMostNames = [
-      'Appliance Repair',
       'Maid',
+      'Appliance Repair',
       'Electrician',
     ];
 
@@ -424,7 +423,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding: const EdgeInsets.only(right: 6.0),
                                 child: TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/categoryScreen');
+                                    _currentIndex = 2;
                                   },
                                   style: ButtonStyle(
                                     overlayColor: MaterialStateProperty.resolveWith<Color>(
@@ -555,6 +554,50 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(
                           height: 16.0,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 5.0,
+                          color: kSeperatorColor,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              height: 90,
+                                width: 90,
+                                child: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Money_Flat_Icon.svg/1200px-Money_Flat_Icon.svg.png'),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Claim 100% refund',
+                                  style: kHeadingFontStyle.copyWith(
+                                    fontSize: 15.0,
+                                    color: const Color(0xff54B435)
+                                  ),
+                                ),
+                                const SizedBox(height: 8.0,),
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.6, // Adjust the width as needed
+                                  child: Text(
+                                    'If our partner delivered a service outside the Hausify app',
+                                    style: kContentFontStyle.copyWith(fontSize: 12.0),
+                                    softWrap: true,
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                )
+                              ],
+                            ),
+                            GestureDetector(
+                              child: const Icon(CupertinoIcons.right_chevron),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 0.0,
                         ),
                         Container(
                           width: double.infinity,
@@ -743,28 +786,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
               if (_currentIndex == 1)
-                const Padding(
-                  padding: EdgeInsets.zero,
-                  child: Text(
-                      'Cart fragment'
-                  ),
+                const fragmentTopBar(
+                  topBarText: 'Cart',
                 ),
               if (_currentIndex == 2)
+                const fragmentTopBar(
+                  topBarText: 'Category',
+                ),
+              if (_currentIndex == 3)
                 Column(
                   children: [
-                    Container(
-                      color: const Color(0xFFEAF6F6),
-                      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
-                      child: const Center(
-                        child: Text(
-                          'Profile',
-                          style: TextStyle(
-                            fontSize: 28.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
+                    const fragmentTopBar(topBarText: 'User Profile'),
                     Padding(
                       padding: const EdgeInsets.all(32.0),
                       child: Container(
@@ -773,15 +805,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              const CircleAvatar(
+                              CircleAvatar(
                                 radius: 65.0,
-                                backgroundImage: AssetImage('assets/profile_image.jpg'),
-                                backgroundColor: Color(0xffEEEEEE),
+                                backgroundImage: NetworkImage(_profileImageURL!),
+                                backgroundColor: const Color(0xffEEEEEE),
                               ),
                               const SizedBox(height: 10.0),
-                              const Text(
-                                'User',
-                                style: TextStyle(
+                              Text(
+                                _fullname!,
+                                style: const TextStyle(
                                   fontSize: 28.0,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -796,15 +828,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     onPressed: () {
                                       // Handle My Account card pressed
                                       print('My Account card pressed');
-                                    },
-                                  ),
-                                  const SizedBox(height: 10.0,),
-                                  buildCard(
-                                    icon: Ionicons.notifications,
-                                    title: 'Notifications',
-                                    onPressed: () {
-                                      // Handle Notifications card pressed
-                                      print('Notifications card pressed');
                                     },
                                   ),
                                   const SizedBox(height: 10.0,),
@@ -857,6 +880,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
+              if (_currentIndex == 4)
+                const fragmentTopBar(
+                  topBarText: 'Category',
+                ),
             ],
           ),
         ),
@@ -867,7 +894,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget buildCard({required IconData icon, required String title, VoidCallback? onPressed}) {
     return Card(
       elevation: 0,
-      color: const Color(0xFFF8F6F4),
+      color: kNavBarColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
@@ -882,7 +909,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         trailing: const Icon(
           Icons.arrow_forward,
-          color: Colors.black,
+          color: Colors.black54,
           size: 30.0,
         ),
         onTap: onPressed,
@@ -952,7 +979,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: const Color(0xFFF5F5F5),
+                color: kNavBarColor,
                 borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
               ),
               child: Row(
@@ -960,13 +987,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   buildNavBarIcon(Icons.home, 0),
                   buildNavBarIcon(Icons.shopping_cart, 1),
-                  buildNavBarIcon(Icons.person, 2),
+                  buildNavBarIcon(Icons.grid_view_rounded, 2),
+                  buildNavBarIcon(Icons.person, 3),
+                  buildNavBarIcon(Icons.message_rounded, 4),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class fragmentTopBar extends StatelessWidget {
+  final String topBarText;
+  const fragmentTopBar({
+    super.key, required this.topBarText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          color: Colors.white, //TopBar Color
+          padding: const EdgeInsets.fromLTRB(10.0, 18.0, 10.0, 6.0),
+          // padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
+          child: Center(
+            child: Text(
+              topBarText,
+              style: kHeadingFontStyle.copyWith(
+                fontSize: 24,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 8.0,
+        ),
+        Container(
+          width: double.infinity,
+          height: 5.0,
+          color: kSeperatorColor,
+        ),
+      ],
     );
   }
 }

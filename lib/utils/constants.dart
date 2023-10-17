@@ -5,6 +5,7 @@ const kIconColor = Color(0xff040D12);
 const kPrimaryColor = Color(0xffFC8019);
 const kContrastColor = Color(0xffFFE6C7);
 const kSeperatorColor = Color(0xffEEEEEE);
+const kNavBarColor = Color(0xFFF5F5F5);
 
 const kHeadingFontStyle = TextStyle(
   fontFamily: 'BoldHeading',
