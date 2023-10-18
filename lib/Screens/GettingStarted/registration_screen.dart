@@ -114,11 +114,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Enter OTP"),
+            title: const Text(
+                "Enter OTP",
+              style: kHeadingFontStyle,
+            ),
             content: TextField(
               keyboardType: TextInputType.number,
               controller: _otpController,
               decoration: InputDecoration(
+                hintText: '6 Digit OTP',
                 contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(40.0),
@@ -193,32 +197,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Verify Email"),
+            title: const Text(
+                "Verify Email",
+              style: kHeadingFontStyle,
+            ),
             content: const Text(
                 "A verification email has been sent to your email address. Please check your inbox and click the verification link to complete the registration."),
             actions: [
-              ElevatedButton(
-                onPressed: () async {
-                  await _auth.createUserWithEmailAndPassword(email: email, password: password);
+              Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await _auth.createUserWithEmailAndPassword(email: email, password: password);
 
-                  User? user = _auth.currentUser;
+                    User? user = _auth.currentUser;
 
-                  // Send email verification
-                  await user?.sendEmailVerification();
-                  Navigator.of(context).pop();
-                  if(user!=null)
-                  {isMail=true;}
-                },
-                child: const Text("Tap to verify"),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(kPrimaryColor), // Set the background color to orange
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0), // Adjust the value to control the border radius
+                    // Send email verification
+                    await user?.sendEmailVerification();
+                    Navigator.of(context).pop();
+                    if(user!=null)
+                    {isMail=true;}
+                  },
+                  child: const Text("Tap to verify"),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor), // Set the background color to orange
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0), // Adjust the value to control the border radius
+                      ),
                     ),
                   ),
-                ),
 
+                ),
               ),
             ],
           );

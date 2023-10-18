@@ -151,11 +151,11 @@ class _HomeScreenState extends State<HomeScreen> {
       'https://cdn-icons-png.flaticon.com/512/5612/5612846.png',
       'https://cdn-icons-png.flaticon.com/512/1057/1057470.png',
       'https://cdn-icons-png.flaticon.com/512/2377/2377308.png',
-      'https://cdn-icons-png.flaticon.com/512/3343/3343641.png', // Image URL for the first service
+      'https://cdn-icons-png.flaticon.com/512/3343/3343641.png',
       'https://cdn-icons-png.flaticon.com/512/681/681531.png',
-      'https://cdn-icons-png.flaticon.com/512/4635/4635163.png', // Image URL for the second service
-      'https://cdn-icons-png.flaticon.com/512/6008/6008918.png', // Image URL for the third service
-      'https://cdn-icons-png.flaticon.com/512/3531/3531568.png', // Image URL for the fourth service
+      'https://cdn-icons-png.flaticon.com/512/4635/4635163.png',
+      'https://cdn-icons-png.flaticon.com/512/6008/6008918.png',
+      'https://cdn-icons-png.flaticon.com/512/3531/3531568.png',
     ];
 
     List<String> serviceCatNames = [
@@ -970,10 +970,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(height: 10.0,),
                                   buildCard(
                                     icon: Ionicons.settings,
-                                    title: 'Settings',
+                                    title: 'FAQs',
                                     onPressed: () {
-                                      // Handle Settings card pressed
-                                      print('Settings card pressed');
+                                      Navigator.pushNamed(context, '/faqScreen');
                                     },
                                   ),
                                   const SizedBox(height: 10.0,),

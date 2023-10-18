@@ -70,6 +70,25 @@ class FAQScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           fragmentTopBar(topBarText: 'FAQs'),
+          SizedBox(height: 20,),
+          Center(
+            child: Image.network(
+                'https://cdn-icons-png.flaticon.com/512/4403/4403531.png',
+              height: 220,
+              width: 220,
+            ),
+          ),
+          SizedBox(height: 20,),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Most frequently asked questions. Tap to expand.',
+              style: kHeadingFontStyle.copyWith(
+                fontSize: 14,
+                color: kPrimaryColor
+              ),
+            ),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: faqItems.length,
@@ -123,7 +142,7 @@ class _FAQItemWidgetState extends State<FAQItemWidget> {
               widget.item.question,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
+                fontSize: 16,
               ),
             ),
             if (isExpanded)
