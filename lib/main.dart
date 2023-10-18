@@ -7,6 +7,7 @@ import 'package:urbanserv/Screens/GettingStarted/registration_screen.dart';
 import 'package:urbanserv/Screens/ProfileSection/faq_screen.dart';
 import 'package:urbanserv/Screens/ProfileSection/myaccount_screen.dart';
 import 'package:urbanserv/Screens/home_screen.dart';
+import 'package:urbanserv/Screens/notification_screen.dart';
 import 'package:urbanserv/Screens/refund_screen.dart';
 import 'package:urbanserv/Screens/start.dart';
 import 'package:urbanserv/Screens/categoryscreen.dart';
@@ -14,6 +15,7 @@ import 'package:urbanserv/Screens/ProfileSection/help_screen.dart';
 import 'Screens/schedule.dart';
 import 'package:urbanserv/Screens/ProfileSection/troubleshoot_screen.dart';
 import 'package:urbanserv/Screens/refund_screen.dart';
+import 'package:urbanserv/Screens/ProfileSection/subscription_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,12 +72,14 @@ class UrbanServ extends StatelessWidget {
           '/loginScreen': (context) => LoginScreen(),
           '/registrationScreen': (context) => RegistrationScreen(),
           '/homescreen': (context) => HomeScreen(),
+          '/notificationScreen': (context) => NotificationScreen(),
           '/categoryScreen' : (context) => CategoryScreen(),
           '/scheduleScreen' : (context)=> const ScheduleScreen(),
           '/myaccountScreen': (context)=> MyAccountScreen(),
           '/faqScreen': (context) => FAQScreen(),
           '/helpScreen' : (context)=> const HelpScreen(),
           '/troubleshootScreen': (context) => const TroubleshootScreen(),
+          '/subscriptionScreen': (context) => SubscriptionScreen(),
           '/refundScreen' : (context) => const RefundScreen(),
           '/checkLogin': (context) => FutureBuilder(
             future: _auth.getCurrentUser(),

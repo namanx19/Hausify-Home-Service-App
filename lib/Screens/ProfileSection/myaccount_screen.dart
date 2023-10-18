@@ -76,87 +76,96 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const fragmentTopBar(topBarText: 'My Account'),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+      body: Column(
+        children: [
+          const fragmentTopBar(topBarText: 'My Account'),
+          Expanded(
+            child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                      'assets/images/my-account.png',
-                    height: 160,
-                    width: 160,
-                  ),
-                  SizedBox(height: 40),
-                  RoundedTextField(
-                    controller: nameController,
-                    labelText: 'Name',
-                    isEditing: isEditing,
-                    icon: Icons.person,
-                    borderColor: isEditing ? Colors.orange : Colors.black,
-                  ),
-                  RoundedTextField(
-                    controller: emailController,
-                    labelText: 'Email',
-                    isEditing: false, // Email should not be editable
-                    icon: Icons.email,
-                    borderColor: kPrimaryColor,
-                  ),
-                  RoundedTextField(
-                    controller: phoneController,
-                    labelText: 'Phone',
-                    isEditing: isEditing,
-                    icon: Icons.phone,
-                    borderColor: isEditing ? kPrimaryColor : Colors.black,
-                  ),
-                  RoundedTextField(
-                    controller: addressController,
-                    labelText: 'Address',
-                    isEditing: isEditing,
-                    icon: Icons.location_on,
-                    borderColor: isEditing ? kPrimaryColor : Colors.black,
-                  ),
                   SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: isEditing ? saveChanges : toggleEditing,
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 0), // Full width
-                      backgroundColor: kPrimaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 12), // Adjust height
-                    ),
-                    child: Text(
-                      isEditing ? 'Save' : 'Edit Profile',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: openUpgradeDialog,
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 0), // Full width
-                      backgroundColor: Color(0xff192655),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 12), // Adjust height
-                    ),
-                    child: const Text(
-                      'Upgrade to Pro',
-                      style: TextStyle(fontSize: 18),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                            'assets/images/my-account.png',
+                          height: 160,
+                          width: 160,
+                        ),
+                        SizedBox(height: 40),
+                        RoundedTextField(
+                          controller: nameController,
+                          labelText: 'Name',
+                          isEditing: isEditing,
+                          icon: Icons.person,
+                          borderColor: isEditing ? Colors.orange : Colors.black,
+                        ),
+                        RoundedTextField(
+                          controller: emailController,
+                          labelText: 'Email',
+                          isEditing: false, // Email should not be editable
+                          icon: Icons.email,
+                          borderColor: kPrimaryColor,
+                        ),
+                        RoundedTextField(
+                          controller: phoneController,
+                          labelText: 'Phone',
+                          isEditing: isEditing,
+                          icon: Icons.phone,
+                          borderColor: isEditing ? kPrimaryColor : Colors.black,
+                        ),
+                        RoundedTextField(
+                          controller: addressController,
+                          labelText: 'Address',
+                          isEditing: isEditing,
+                          icon: Icons.location_on,
+                          borderColor: isEditing ? kPrimaryColor : Colors.black,
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: isEditing ? saveChanges : toggleEditing,
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 0), // Full width
+                            backgroundColor: kPrimaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 12), // Adjust height
+                          ),
+                          child: Text(
+                            isEditing ? 'Save' : 'Edit Profile',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          // onPressed: openUpgradeDialog,
+                          onPressed: (){
+                            Navigator.pushNamed(context, '/subscriptionScreen');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 0), // Full width
+                            backgroundColor: Color(0xff192655),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 12), // Adjust height
+                          ),
+                          child: const Text(
+                            'Upgrade to Pro',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

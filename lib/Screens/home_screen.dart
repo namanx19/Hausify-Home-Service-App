@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _localArea = widget.localArea ?? 'Get Current Location!';
+    _localArea = widget.localArea ?? 'GIDA';
     _fulladdress = widget.fulladdress ?? 'Tap to fetch';
     _searchbarFocusNode = FocusNode(); // for changing the border color of search bar
     final user = _auth.currentUser;
@@ -307,7 +307,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(context, '/notificationScreen');
+                            },
                             child: const Icon(Icons.notifications, color: kPrimaryColor,),
                           ),
                         ],
@@ -1292,20 +1294,18 @@ class CatProdServiceGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: GridView.count(
-          shrinkWrap: true,
-          crossAxisCount: 3,
-          childAspectRatio: 0.7,
-          mainAxisSpacing: 10.0,
-          crossAxisSpacing: 10.0,
-          physics: const NeverScrollableScrollPhysics(),
-          children: services.map((service) {
-            return CatProdServiceCard(service: service);
-          }).toList(),
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: GridView.count(
+        shrinkWrap: true,
+        crossAxisCount: 3,
+        childAspectRatio: 0.7,
+        mainAxisSpacing: 10.0,
+        crossAxisSpacing: 10.0,
+        physics: const NeverScrollableScrollPhysics(),
+        children: services.map((service) {
+          return CatProdServiceCard(service: service);
+        }).toList(),
       ),
     );
   }
