@@ -45,23 +45,55 @@ class _HomeScreenState extends State<HomeScreen> {
     _fulladdress = widget.fulladdress ?? 'Tap to fetch';
     _searchbarFocusNode = FocusNode(); // for changing the border color of search bar
     final user = _auth.currentUser;
-    _fullname = user?.displayName;
-    _profileImageURL = user?.photoURL;
+    if (user != null && user.photoURL != null) {
+      _profileImageURL = user.photoURL;
+    } else {
+      // Set a default image URL or use a fallback image from an asset
+      _profileImageURL = 'https://cdn-icons-png.flaticon.com/128/1077/1077012.png'; // Replace with a default image URL
+    }
     if (user != null) {
       // Check if the user has a display name
       if (user.displayName != null) {
         // Split the display name by space and take the first part as the username
         final parts = user.displayName?.split(' ');
         username = parts![0];
-      } else {
-        // If there's no display name, you can use the email as a username or customize it as needed
-        username = 'Potato';
+        _fullname = user.displayName;
       }
-    } else {
-      // Handle the case where there is no authenticated user
-      username = "Guest"; // or show an error message
+      else {
+        // If there's no display name, you can use the email as a username or customize it as needed
+        username = 'Naman';
+        _fullname = 'Naman Gupta';
+      }
+    }
+    else
+    {
+      username = 'Naman';
+      _fullname = 'Naman Gupta';
     }
   }
+  // void initState() {
+  //   super.initState();
+  //   _localArea = widget.localArea ?? 'Get Current Location!';
+  //   _fulladdress = widget.fulladdress ?? 'Tap to fetch';
+  //   _searchbarFocusNode = FocusNode(); // for changing the border color of search bar
+  //   final user = _auth.currentUser;
+  //   _fullname = user?.displayName;
+  //   _profileImageURL = user?.photoURL;
+  //   if (user != null) {
+  //     // Check if the user has a display name
+  //     if (user.displayName != null) {
+  //       // Split the display name by space and take the first part as the username
+  //       final parts = user.displayName?.split(' ');
+  //       username = parts![0];
+  //     } else {
+  //       // If there's no display name, you can use the email as a username or customize it as needed
+  //       username = 'Potato';
+  //     }
+  //   } else {
+  //     // Handle the case where there is no authenticated user
+  //     username = "Guest"; // or show an error message
+  //   }
+  // }
 
   late FocusNode _searchbarFocusNode; // for changing the border color of search bar
 
@@ -963,8 +995,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     icon: Ionicons.person,
                                     title: 'My Account',
                                     onPressed: () {
-                                      // Handle My Account card pressed
-                                      print('My Account card pressed');
+                                      Navigator.pushNamed(context, '/myaccountScreen');
                                     },
                                   ),
                                   const SizedBox(height: 10.0,),
