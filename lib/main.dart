@@ -6,6 +6,7 @@ import 'package:urbanserv/Screens/GettingStarted/ob_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/registration_screen.dart';
 import 'package:urbanserv/Screens/ProfileSection/faq_screen.dart';
 import 'package:urbanserv/Screens/ProfileSection/myaccount_screen.dart';
+import 'package:urbanserv/Screens/booking_screen.dart';
 import 'package:urbanserv/Screens/home_screen.dart';
 import 'package:urbanserv/Screens/notification_screen.dart';
 import 'package:urbanserv/Screens/refund_screen.dart';
@@ -65,7 +66,7 @@ class UrbanServ extends StatelessWidget {
           ),
         ),
         // initialRoute: '/checkLogin',
-        initialRoute: '/homescreen',
+        initialRoute: '/',
         routes: {
           '/': (context) => const OnboardingScreen(),
           '/start': (context) => const StartPage(),
@@ -75,6 +76,7 @@ class UrbanServ extends StatelessWidget {
           '/notificationScreen': (context) => NotificationScreen(),
           '/categoryScreen' : (context) => CategoryScreen(),
           '/scheduleScreen' : (context)=> const ScheduleScreen(),
+          '/bookingScreen': (context)=> BookingScreen(),
           '/myaccountScreen': (context)=> MyAccountScreen(),
           '/faqScreen': (context) => FAQScreen(),
           '/helpScreen' : (context)=> const HelpScreen(),

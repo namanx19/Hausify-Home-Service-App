@@ -913,8 +913,136 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
               if (_currentIndex == 1)
-                const fragmentTopBar(
-                  topBarText: 'Cart',
+                Column(
+                  children: [
+                    const fragmentTopBar(
+                      topBarText: 'Cart',
+                    ),
+                    const SizedBox(height: 20.0,),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
+                          Card(
+                            elevation: 0,  // No elevation
+                            color: kSeperatorColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),  // Rounded edges
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Left side: Image and Service Name
+                                  Container(
+                                    width: 80,  // Adjust width as needed
+                                    height: 80,  // Adjust height as needed
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),  // Rounded edges
+                                      image: const DecorationImage(
+                                        image: NetworkImage('https://cdn-icons-png.flaticon.com/512/3343/3343641.png'),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ), // Add some spacing between image and text
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Cleaning',  // Replace with your service name
+                                        style: kContentFontStyle
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                          'Available soon                                 ',  // Replace with your service name
+                                          style: kContentFontStyle.copyWith(
+                                            fontSize: 12
+                                          )
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: const Icon(Icons.delete_forever_rounded, color: kPrimaryColor,),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Card(
+                            elevation: 0,  // No elevation
+                            color: kSeperatorColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),  // Rounded edges
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Left side: Image and Service Name
+                                  Container(
+                                    width: 80,  // Adjust width as needed
+                                    height: 80,  // Adjust height as needed
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),  // Rounded edges
+                                      image: const DecorationImage(
+                                        image: NetworkImage('https://cdn-icons-png.flaticon.com/512/6008/6008918.png'),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ), // Add some spacing between image and text
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                          'Electrician',  // Replace with your service name
+                                          style: kContentFontStyle
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                          'Available soon                                 ',  // Replace with your service name
+                                          style: kContentFontStyle.copyWith(
+                                              fontSize: 12
+                                          )
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: const Icon(Icons.delete_forever_rounded, color: kPrimaryColor,),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 360,),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: ElevatedButton(
+                        // onPressed: openUpgradeDialog,
+                        onPressed: (){
+                          Navigator.pushNamed(context, '/scheduleScreen');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 0), // Full width
+                          backgroundColor: kPrimaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12), // Adjust height
+                        ),
+                        child: const Text(
+                          'Proceed to Book',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               if (_currentIndex == 2)
                 Column(

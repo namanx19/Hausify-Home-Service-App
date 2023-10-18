@@ -1,5 +1,6 @@
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:flutter/material.dart';
+import 'package:urbanserv/utils/constants.dart';
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({ Key? key }) : super(key: key);
@@ -107,12 +108,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     'Every month'
   ];
 
-  final List<dynamic> _exteraCleaning = [
-    ['Washing', 'https://img.icons8.com/office/2x/washing-machine.png', '10'],
-    ['Fridge', 'https://img.icons8.com/cotton/2x/fridge.png', '8'],
-    ['Oven', 'https://img.icons8.com/external-becris-lineal-color-becris/2x/external-oven-kitchen-cooking-becris-lineal-color-becris.png', '8'],
-    ['Vehicle', 'https://img.icons8.com/external-vitaliy-gorbachev-blue-vitaly-gorbachev/2x/external-bycicle-carnival-vitaliy-gorbachev-blue-vitaly-gorbachev.png', '20'],
-    ['Windows', 'https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/2x/external-window-interiors-kiranshastry-lineal-color-kiranshastry-1.png', '20'],
+  final List<dynamic> _extraCleaning = [
+    ['Washing', 'https://img.icons8.com/office/2x/washing-machine.png', '29'],
+    ['Fridge', 'https://img.icons8.com/cotton/2x/fridge.png', '79'],
+    ['Oven', 'https://img.icons8.com/external-becris-lineal-color-becris/2x/external-oven-kitchen-cooking-becris-lineal-color-becris.png', '129'],
+    ['Vehicle', 'https://img.icons8.com/external-vitaliy-gorbachev-blue-vitaly-gorbachev/2x/external-bycicle-carnival-vitaliy-gorbachev-blue-vitaly-gorbachev.png', '12'],
   ];
 
   void _selectDate(BuildContext context) async {
@@ -151,38 +151,34 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             return <Widget>[
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 120.0, right: 20.0, left: 20.0),
+                  padding: EdgeInsets.fromLTRB(12, 20, 12, 12),
                   child: Text(
-                    'Select Date \nand Time',
-                    style: TextStyle(
-                      fontSize: 35,
-                      color: Colors.grey.shade900,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    'Select Date & Time',
+                    style: kHeadingFontStyle.copyWith(
+                      fontSize: 28
+                    )
                   ),
                 ),
               )
             ];
           },
           body: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 30,),
+                SizedBox(height: 12,),
                 Row(
                   children: [
                     Text("${_selectedDateTime.month} ${_selectedDateTime.year}"),
                     Spacer(),
                     Spacer(),
                     IconButton(
-                      padding: EdgeInsets.all(0),
                       onPressed: () {
-
                         _selectDate(context);
                       },
                       icon: Icon(Icons.arrow_drop_down_circle_outlined, color: Colors.grey.shade700,),
-                    )
+                    ),
                   ],
                 ),
                 Container(
@@ -190,7 +186,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
-                    border: Border.all(width: 1.5, color: Colors.grey.shade200),
+                    border: Border.all(width: 1.5, color: kSeperatorColor),
                   ),
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -207,9 +203,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                             width: 62,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: _selectedDateTime.day == _days[index][0] ? Colors.orange.withOpacity(0.5) : Colors.orange.withOpacity(0),
+                              color: _selectedDateTime.day == _days[index][0] ? Colors.orange.withOpacity(0.2) : Colors.orange.withOpacity(0),
                               border: Border.all(
-                                color: _selectedDateTime.day == _days[index][0] ? Colors.orange : Colors.white.withOpacity(0),
+                                color: _selectedDateTime.day == _days[index][0] ? kPrimaryColor : Colors.white.withOpacity(0),
                                 width: 1.5,
                               ),
                             ),
@@ -250,9 +246,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                             width: 100,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: _selectedDateTime.hour == int.parse(_hours[index].split(':')[0]) && _selectedDateTime.minute == int.parse(_hours[index].split(':')[1]) ? Colors.orange.withOpacity(0.5) : Colors.orange.withOpacity(0),
+                              color: _selectedDateTime.hour == int.parse(_hours[index].split(':')[0]) && _selectedDateTime.minute == int.parse(_hours[index].split(':')[1]) ? Colors.orange.withOpacity(0.2) : Colors.orange.withOpacity(0),
                               border: Border.all(
-                                color: _selectedDateTime.hour == int.parse(_hours[index].split(':')[0]) && _selectedDateTime.minute == int.parse(_hours[index].split(':')[1]) ? Colors.orange : Colors.white.withOpacity(0),
+                                color: _selectedDateTime.hour == int.parse(_hours[index].split(':')[0]) && _selectedDateTime.minute == int.parse(_hours[index].split(':')[1]) ? kPrimaryColor : Colors.white.withOpacity(0),
                                 width: 1.5,
                               ),
                             ),
@@ -267,9 +263,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       }
                   ),
                 ),
-                SizedBox(height: 40,),
+                SizedBox(height: 28,),
                 Text("Repeat", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
-                SizedBox(height: 10,),
+                SizedBox(height: 14,),
                 Container(
                     height: 50,
                     decoration: BoxDecoration(
@@ -301,18 +297,18 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       },
                     )
                 ),
-                SizedBox(height: 40,),
+                SizedBox(height: 28,),
                 Text("Additional Service", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
-                SizedBox(height: 10,),
+                SizedBox(height: 14,),
                 Container(
-                    height: 120,
+                    height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                     ),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: _exteraCleaning.length,
+                      itemCount: _extraCleaning.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                             onTap: () {
@@ -328,18 +324,22 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                 width: 110,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
-                                  color: _selectedExteraCleaning.contains(index) ? Colors.orange : Colors.transparent,
+                                  color: _selectedExteraCleaning.contains(index) ? Colors.orange.withOpacity(0.2) : Colors.transparent,
+                                  border: Border.all(
+                                    color: kContrastColor,
+                                    width: 1.5,
+                                  ),
                                 ),
                                 margin: EdgeInsets.only(right: 20),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Image.network(_exteraCleaning[index][1], height: 40,),
+                                    Image.network(_extraCleaning[index][1], height: 40,),
                                     SizedBox(height: 10,),
-                                    Text(_exteraCleaning[index][0], style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: _selectedExteraCleaning.contains(index) ? Colors.white : Colors.grey.shade800),),
+                                    Text(_extraCleaning[index][0], style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: _selectedExteraCleaning.contains(index) ? Colors.white : Colors.grey.shade800),),
                                     SizedBox(height: 5,),
-                                    Text("+${_exteraCleaning[index][2]}\$", style: TextStyle(color: Colors.black),)
+                                    Text("₹ ${_extraCleaning[index][2]}", style: TextStyle(color: Colors.black),)
                                   ],
                                 )
                             )
@@ -347,18 +347,21 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       },
                     )
                 ),
-                Spacer(),
+                //Spacer(),
+                SizedBox(height: 160,),
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
                       // Add the code to proceed to payment here.
+                      Navigator.pushNamed(context, '/bookingScreen');
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.orange,
-                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                      textStyle: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      elevation: 1.5,
+                      backgroundColor: kPrimaryColor, // Change to your color
+                      minimumSize:
+                      Size(MediaQuery.of(context).size.width * 0.8, 48),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
                       ),
                     ),
                     child: Text('Proceed to Payment'),
