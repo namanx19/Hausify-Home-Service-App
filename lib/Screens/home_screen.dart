@@ -145,7 +145,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-
   Widget buildFragmentContent() {
     // This list is for adding service images inside the Gesture detectors
     List<String> serviceCatImageURLs = [
@@ -516,6 +515,50 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 5.0,
                           color: kSeperatorColor,
                         ),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
+                          child: Text(
+                            'Black Friday Sale',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              side: const BorderSide(
+                                color: kPrimaryColor, // Set the border color here
+                                width: 1.0, // Set the border width
+                              ),// Adjust the radius as needed
+                            ),
+                            elevation: 0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                              child: AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: Image.asset(
+                                    'assets/images/salebanner.jpg',
+                                    fit: BoxFit.cover,          //end of refer banner
+                                  )
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 5.0,
+                          color: kSeperatorColor,
+                        ),
                         const Padding(                    //Most Booked Heading
                           padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
                           child: Text(
@@ -647,6 +690,50 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ],
                               ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 5.0,
+                          color: kSeperatorColor,
+                        ),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 10, 16, 6),
+                          child: Text(
+                            'Medical help just a tap away!',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              side: const BorderSide(
+                                color: Color(0xff9EDDFF), // Set the border color here
+                                width: 1.0, // Set the border width
+                              ),// Adjust the radius as needed
+                            ),
+                            elevation: 0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                              child: AspectRatio(
+                                  aspectRatio: 1/1,
+                                  child: Image.asset(
+                                    'assets/images/medibanner.jpg',
+                                    fit: BoxFit.cover,          //end of refer banner
+                                  )
+                              ),
                             ),
                           ),
                         ),
@@ -801,7 +888,46 @@ class _HomeScreenState extends State<HomeScreen> {
                     const fragmentTopBar(
                       topBarText: 'Category',
                     ),
+                    const SizedBox(height: 20.0,),
+                    const Text(
+                        'Home Services',
+                      style: kHeadingFontStyle,
+                    ),
+                    const SizedBox(height: 12.0,),
+                    Center(
+                      child: Text(
+                        'Choose from our wide range of home services',
+                        style: kContentFontStyle.copyWith(
+                          fontSize: 14
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12.0,),
                     CatServiceGrid(),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 5.0,
+                      color: kSeperatorColor,
+                    ),
+                    const SizedBox(height: 20.0,),
+                    const Text(
+                      'Buy Products',
+                      style: kHeadingFontStyle,
+                    ),
+                    const SizedBox(height: 12.0,),
+                    Center(
+                      child: Text(
+                        'Bring home your favourite products',
+                        style: kContentFontStyle.copyWith(
+                            fontSize: 14
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12.0,),
+                    CatProdServiceGrid(),
                   ],
                 ),
               if (_currentIndex == 3)
@@ -891,10 +1017,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-              if (_currentIndex == 4)
-                const fragmentTopBar(
-                  topBarText: 'Chat Bot',
-                ),
+              // if (_currentIndex == 4)
+              //   Column(
+              //     children: [
+              //       const fragmentTopBar(
+              //         topBarText: 'Chat Bot',
+              //       ),
+              //       CatServiceGrid()
+              //     ],
+              //   ),
             ],
           ),
         ),
@@ -1000,7 +1131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   buildNavBarIcon(Icons.shopping_cart, 1),
                   buildNavBarIcon(Icons.grid_view_rounded, 2),
                   buildNavBarIcon(Icons.person, 3),
-                  buildNavBarIcon(Icons.message_rounded, 4),
+                  //buildNavBarIcon(Icons.message_rounded, 4),
                 ],
               ),
             ),
@@ -1034,6 +1165,8 @@ class CatServiceGrid extends StatelessWidget {
     Service('Carpenter', 'https://cdn-icons-png.flaticon.com/512/3531/3531568.png'),
     Service('Gardener', 'https://cdn-icons-png.flaticon.com/512/2316/2316118.png'),
     Service('Tailor', 'https://cdn-icons-png.flaticon.com/512/6920/6920474.png'),
+    Service('Architect', 'https://cdn-icons-png.flaticon.com/512/3270/3270910.png'),
+    Service('Dry Cleaning', 'https://cdn-icons-png.flaticon.com/512/5502/5502169.png'),
     // ... add all other services
   ];
 
@@ -1044,11 +1177,11 @@ class CatServiceGrid extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: GridView.count(
           shrinkWrap: true,
-          crossAxisCount: 2,
-          childAspectRatio: 0.8,
-          mainAxisSpacing: 14.0,
-          crossAxisSpacing: 14.0,
-          physics: NeverScrollableScrollPhysics(),
+          crossAxisCount: 3,
+          childAspectRatio: 0.7,
+          mainAxisSpacing: 10.0,
+          crossAxisSpacing: 10.0,
+          physics: const NeverScrollableScrollPhysics(),
           children: services.map((service) {
             return CatServiceCard(service: service);
           }).toList(),
@@ -1081,13 +1214,13 @@ class CatServiceCard extends StatelessWidget {
           children: [
             Image.network(
               service.imageURL,
-              height: 100,
-              width: 100,
+              height: 60,
+              width: 60,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(service.name,
               style: kContentFontStyle.copyWith(fontSize: 14),),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {
                 // Add to cart button action
@@ -1099,7 +1232,7 @@ class CatServiceCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
-              child: Text('Schedule', style: kContentFontStyle.copyWith(fontSize: 14, color: Colors.white),),
+              child: Text('Schedule', style: kContentFontStyle.copyWith(fontSize: 12, color: Colors.white),),
             ),
           ],
         ),
@@ -1107,3 +1240,96 @@ class CatServiceCard extends StatelessWidget {
     );
   }
 }
+
+
+class CatProdServiceGrid extends StatelessWidget {
+  final List<Service> services = [
+    // List of services...
+    Service('Water Purifier', 'https://cdn-icons-png.flaticon.com/512/4992/4992693.png'),
+    Service('Smart Lock', 'https://cdn-icons-png.flaticon.com/512/2516/2516211.png'),
+    Service('Appliances', 'https://cdn-icons-png.flaticon.com/512/3659/3659950.png'),
+    Service('Gadgets', 'https://cdn-icons-png.flaticon.com/512/3731/3731057.png'),
+    Service('Furnitures', 'https://cdn-icons-png.flaticon.com/512/1198/1198368.png'),
+    Service('Cookwares', 'https://cdn-icons-png.flaticon.com/512/1703/1703122.png'),
+    Service('Arts', 'https://cdn-icons-png.flaticon.com/512/2970/2970785.png'),
+    Service('Sanitary', 'https://cdn-icons-png.flaticon.com/512/1606/1606456.png'),
+    Service('Tools', 'https://cdn-icons-png.flaticon.com/512/2091/2091418.png'),
+    Service('Gardening', 'https://cdn-icons-png.flaticon.com/512/1518/1518914.png'),
+    Service('Infantware', 'https://cdn-icons-png.flaticon.com/512/3731/3731107.png'),
+    Service('Pet Supplies', 'https://cdn-icons-png.flaticon.com/512/616/616408.png'),
+    // ... add all other services
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: GridView.count(
+          shrinkWrap: true,
+          crossAxisCount: 3,
+          childAspectRatio: 0.7,
+          mainAxisSpacing: 10.0,
+          crossAxisSpacing: 10.0,
+          physics: const NeverScrollableScrollPhysics(),
+          children: services.map((service) {
+            return CatProdServiceCard(service: service);
+          }).toList(),
+        ),
+      ),
+    );
+  }
+}
+
+class CatProdServiceCard extends StatelessWidget {
+  final Service service;
+
+  const CatProdServiceCard({required this.service});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+            color: Colors.transparent,
+            width: 1.0), // Adjust border width
+        borderRadius: BorderRadius.circular(10.0),
+        color: kSeperatorColor, // Set background color
+      ),
+      child: Card(
+        elevation: 0,
+        color: Colors.transparent, // Set card color to transparent
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.network(
+              service.imageURL,
+              height: 60,
+              width: 60,
+            ),
+            const SizedBox(height: 8),
+            Text(service.name,
+              style: kContentFontStyle.copyWith(fontSize: 14),),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () {
+                // Add to cart button action
+              },
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: kPrimaryColor, // Change this to your desired color
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              child: Text('Add to Cart', style: kContentFontStyle.copyWith(fontSize: 10, color: Colors.white),),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+

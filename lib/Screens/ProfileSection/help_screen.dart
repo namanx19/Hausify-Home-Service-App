@@ -60,7 +60,7 @@ class HelpScreen extends StatelessWidget {
                   Ionicons.shield_checkmark,
                 color: Color(0xff088395),
               ),
-              title: Text('Safe and Hygienic NBSP Services'),
+              title: Text('Safe and Hygienic Services'),
             ),
             const SizedBox(
               height: 8.0,

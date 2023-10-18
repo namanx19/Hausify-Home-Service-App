@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:urbanserv/Screens/GettingStarted/login_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/ob_screen.dart';
 import 'package:urbanserv/Screens/GettingStarted/registration_screen.dart';
+import 'package:urbanserv/Screens/ProfileSection/faq_screen.dart';
 import 'package:urbanserv/Screens/cat.dart';
 import 'package:urbanserv/Screens/home_screen.dart';
 import 'package:urbanserv/Screens/refund_screen.dart';
@@ -47,6 +48,7 @@ class UrbanServ extends StatelessWidget {
           '/categoryScreen' : (context) => CategoryScreen(),
           '/cat' : (context) => MyApp(),
           '/scheduleScreen' : (context)=> ScheduleScreen(),
+          '/faqScreen': (context) => FAQScreen(),
           '/helpScreen' : (context)=> HelpScreen(),
           '/troubleshootScreen': (context) => TroubleshootScreen(),
           '/refundScreen' : (context) => RefundScreen(),
@@ -79,51 +81,3 @@ class AuthService {
     return _auth.currentUser;
   }
 }
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:urbanserv/Screens/GettingStarted/login_screen.dart';
-// import 'package:urbanserv/Screens/GettingStarted/ob_screen.dart';
-// import 'package:urbanserv/Screens/GettingStarted/registration_screen.dart';
-// import 'package:urbanserv/Screens/categoryscreen.dart';
-// import 'package:urbanserv/Screens/home_screen.dart';
-// import 'package:urbanserv/Screens/start.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:urbanserv/Screens/profile_screen.dart';
-//
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(urbanserv());
-// }
-// class urbanserv extends StatelessWidget {
-//   const urbanserv({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: MaterialApp(
-//         title: 'Login App',
-//         debugShowCheckedModeBanner: false,
-//         theme: ThemeData(
-//           scaffoldBackgroundColor: Colors.white,
-//           textTheme: Theme.of(context).textTheme.apply(
-//             bodyColor: Colors.black,
-//             fontFamily: 'BoldHeading',
-//           ),
-//         ),
-//         initialRoute: '/categoryScreen',
-//         routes: {
-//           '/': (context) => const OnboardingScreen(),
-//           '/start' : (context) => const StartPage(),
-//           '/loginScreen': (context) => LoginScreen(),
-//           '/registrationScreen': (context) => RegistrationScreen(),
-//           '/homescreen': (context) => HomeScreen(),
-//           '/profile': (context) => ProfileScreen(),
-//           '/categoryScreen': (context) => CategoryScreen(),
-//       },
-//       ),
-//     );
-//   }
-// }
