@@ -41,7 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _localArea = widget.localArea ?? 'GIDA';
+    //_localArea = 'GIDA';
+    _localArea = widget.localArea ?? 'Unknown';
     _fulladdress = widget.fulladdress ?? 'Tap to fetch';
     _searchbarFocusNode = FocusNode(); // for changing the border color of search bar
     final user = _auth.currentUser;
@@ -61,39 +62,16 @@ class _HomeScreenState extends State<HomeScreen> {
       }
       else {
         // If there's no display name, you can use the email as a username or customize it as needed
-        username = 'Naman';
-        _fullname = 'Naman Gupta';
+        username = 'User';
+        _fullname = 'User';
       }
     }
     else
     {
-      username = 'Naman';
-      _fullname = 'Naman Gupta';
+      username = 'User';
+      _fullname = 'User';
     }
   }
-  // void initState() {
-  //   super.initState();
-  //   _localArea = widget.localArea ?? 'Get Current Location!';
-  //   _fulladdress = widget.fulladdress ?? 'Tap to fetch';
-  //   _searchbarFocusNode = FocusNode(); // for changing the border color of search bar
-  //   final user = _auth.currentUser;
-  //   _fullname = user?.displayName;
-  //   _profileImageURL = user?.photoURL;
-  //   if (user != null) {
-  //     // Check if the user has a display name
-  //     if (user.displayName != null) {
-  //       // Split the display name by space and take the first part as the username
-  //       final parts = user.displayName?.split(' ');
-  //       username = parts![0];
-  //     } else {
-  //       // If there's no display name, you can use the email as a username or customize it as needed
-  //       username = 'Potato';
-  //     }
-  //   } else {
-  //     // Handle the case where there is no authenticated user
-  //     username = "Guest"; // or show an error message
-  //   }
-  // }
 
   late FocusNode _searchbarFocusNode; // for changing the border color of search bar
 
@@ -163,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (placemarks.isNotEmpty) {
           Placemark placemark = placemarks[0];
           setState(() {
-            _localArea = placemark.subLocality ?? 'Tap to Fetch Location!';
+            _localArea = placemark.subLocality ?? 'Unknown';
             _fulladdress = "${placemark.locality}, ${placemark.administrativeArea}, ${placemark.country}, ${placemark.postalCode}" ?? '';
           });
         }
@@ -286,6 +264,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       size: 18.0,
                                     )
                                         : Text(
+                                      //'GIDA',
                                       _localArea,
                                       style: kHeadingFontStyle.copyWith(
                                         fontSize: 14,

@@ -93,9 +93,9 @@ class HelpScreen extends StatelessWidget {
                     title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('+91 70074 60524'),
+                      Text('+91 12345 67890'),
                       SizedBox(height: 18.0,),
-                      Text('+91 94552 41118'),
+                      Text('+91 12345 67890'),
                     ],
                   ),
                   ),

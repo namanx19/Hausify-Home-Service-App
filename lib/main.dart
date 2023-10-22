@@ -15,7 +15,6 @@ import 'package:urbanserv/Screens/categoryscreen.dart';
 import 'package:urbanserv/Screens/ProfileSection/help_screen.dart';
 import 'Screens/schedule.dart';
 import 'package:urbanserv/Screens/ProfileSection/troubleshoot_screen.dart';
-import 'package:urbanserv/Screens/refund_screen.dart';
 import 'package:urbanserv/Screens/ProfileSection/subscription_screen.dart';
 
 void main() async {
@@ -24,35 +23,11 @@ void main() async {
   runApp(UrbanServ());
 }
 
-void printWithDelay(String message, Duration duration) async {
-  await Future.delayed(duration);
-  print(message);
-}
-
 class UrbanServ extends StatelessWidget {
   final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
-    printWithDelay('Enabling database. Please wait...', const Duration(seconds: 5));
-    printWithDelay('Dockerizing all containers. Please wait...', const Duration(seconds: 8));
-    printWithDelay('Dockerization successfull.', const Duration(seconds: 11));
-    printWithDelay('Connecting to the Local Blockchain Network on localhost:5173 port:80. Please Wait...', const Duration(seconds: 14));
-    printWithDelay('Checking internet connection:', const Duration(seconds: 17));
-    printWithDelay('Connection Remarks: poor network. Please wait...', const Duration(seconds: 18));
-    printWithDelay('Getting chain address from your blockchain network', const Duration(seconds: 21));
-    printWithDelay('RPC Server: HTTP://127.0.0.1:5173', const Duration(seconds: 21));
-    printWithDelay('Network ID: 5777', const Duration(seconds: 21));
-    printWithDelay('Mining Status: Auto Mining', const Duration(seconds: 21));
-    printWithDelay('Connected on Chain 0x754cK584AbA15d151eR4Ks46269de942cc12rf1354', const Duration(seconds: 30));
-    printWithDelay('Creating Node Blocks', const Duration(seconds: 33));
-    printWithDelay('Securely adding user to the blockchain network', const Duration(seconds: 36));
-    printWithDelay('Chain created successfully', const Duration(seconds: 39));
-    printWithDelay('Marking current node positive. Please wait...', const Duration(seconds: 42));
-    printWithDelay('Encryption key stored in: _blockchainSecureKey', const Duration(seconds: 45));
-    printWithDelay('Added the user data from server. Server task complete.', const Duration(seconds: 50));
-    printWithDelay('Redirecting you to the database. Please wait...', const Duration(seconds: 52));
-    printWithDelay('redirected => /onboardingScreen. ', const Duration(seconds: 56));
 
     return SafeArea(
       child: MaterialApp(
