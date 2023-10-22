@@ -1,3 +1,16 @@
+# Use an official Flutter Docker image as the base image
+FROM cirrusci/flutter:2.5.3
+
+# Set the working directory inside the container
+WORKDIR /app
+
+docker run -p 80:80 -d com.urbanserv.urbanserv
+
+
+docker build -t com.urbanserv.urbanserv .
+
+
+# Copy your Flutter app's source code to the container
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,8 +57,7 @@ class UrbanServ extends StatelessWidget {
     printWithDelay('RPC Server: HTTP://127.0.0.1:5173', const Duration(seconds: 21));
     printWithDelay('Network ID: 5777', const Duration(seconds: 21));
     printWithDelay('Mining Status: Auto Mining', const Duration(seconds: 21));
-    printWithDelay('Connected on Chain 0x4b29854977821dC2EA39817E61dd80783c4359F8'
-        '', const Duration(seconds: 30));
+    printWithDelay('Connected on Chain 0x754cK584AbA15d151eR4Ks46269de942cc12rf1354', const Duration(seconds: 30));
     printWithDelay('Creating Node Blocks', const Duration(seconds: 33));
     printWithDelay('Securely adding user to the blockchain network', const Duration(seconds: 36));
     printWithDelay('Chain created successfully', const Duration(seconds: 39));
@@ -67,7 +79,7 @@ class UrbanServ extends StatelessWidget {
           ),
         ),
         // initialRoute: '/checkLogin',
-        initialRoute: '/',
+        initialRoute: '/start',
         routes: {
           '/': (context) => const OnboardingScreen(),
           '/start': (context) => const StartPage(),
@@ -113,3 +125,23 @@ class AuthService {
     return _auth.currentUser;
   }
 }
+
+
+# Install additional system packages and dependencies
+RUN apt-get update -y && apt-get install -y \
+    git \
+    unzip
+
+# Install Flutter dependencies
+RUN flutter config --no-analytics && \
+    flutter precache && \
+    flutter pub get
+
+# Build the release version of the Flutter app
+RUN flutter build apk --release
+
+# Expose the port your Flutter app will run on (default is 80)
+EXPOSE 80
+
+# Define the command to run your Flutter app
+CMD ["flutter", "run", "-d", "web"]

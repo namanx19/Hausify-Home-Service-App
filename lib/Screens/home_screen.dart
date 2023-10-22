@@ -41,7 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _localArea = widget.localArea ?? 'GIDA';
+    _localArea = 'GIDA';
+    //_localArea = widget.localArea ?? 'GIDA';
     _fulladdress = widget.fulladdress ?? 'Tap to fetch';
     _searchbarFocusNode = FocusNode(); // for changing the border color of search bar
     final user = _auth.currentUser;
@@ -163,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (placemarks.isNotEmpty) {
           Placemark placemark = placemarks[0];
           setState(() {
-            _localArea = placemark.subLocality ?? 'Tap to Fetch Location!';
+            _localArea = placemark.subLocality ?? 'GIDA';
             _fulladdress = "${placemark.locality}, ${placemark.administrativeArea}, ${placemark.country}, ${placemark.postalCode}" ?? '';
           });
         }
@@ -286,7 +287,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       size: 18.0,
                                     )
                                         : Text(
-                                      _localArea,
+                                      'GIDA',
+                                      //_localArea,
                                       style: kHeadingFontStyle.copyWith(
                                         fontSize: 14,
                                         color: kPrimaryColor,
