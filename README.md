@@ -18,13 +18,23 @@ Tired of the hassle of finding reliable carpenters, electricians, plumbers, and 
 
 Download UrbanServ now and experience the future of hassle-free home services. Say goodbye to stress and hello to convenience with UrbanServ. Your home deserves the best, and UrbanServ delivers it right to your doorstep.
 
+## Screenshots
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0016.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0017.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0025.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0024.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0022.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0023.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0026.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0030.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0029.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0028.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0034.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0033.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0031.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0035.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0036.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0037.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0038.jpg" width = 20% height = 20% />
+<img src="https://github.com/namanx19/Hausify-Home-Service-App/blob/main/Screenshots/IMG-20231027-WA0039.jpg" width = 20% height = 20% />
 
-## **Connect with us:**
-Website: [Your Website]
-Facebook: [Your Facebook]
-Instagram: [Your Instagram]
-Twitter: [Your Twitter]
-
-For inquiries and support, contact us at [Your Contact Email/Number]"
-
-Feel free to customize this app description to align with your app's unique features and benefits.
