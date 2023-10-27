@@ -1,0 +1,67 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract HomeServiceContract {
+    // Struct to represent a service request
+    struct ServiceRequest {
+        address requester;
+        string description;
+        uint256 price;
+        address assignedProvider;
+        bool completed;
+    }
+
+    // Mapping to store service requests by request ID
+    mapping(uint256 => ServiceRequest) public serviceRequests;
+
+    // Event to log service request creation
+    event ServiceRequestCreated(uint256 requestId, address requester, string description, uint256 price);
+
+    // Event to log service request assignment
+    event ServiceRequestAssigned(uint256 requestId, address provider);
+
+    // Event to log service request completion
+    event ServiceRequestCompleted(uint256 requestId);
+
+    // Function to create a new service request
+    function createServiceRequest(string memory _description, uint256 _price) public {
+        require(_price > 0, "Price must be greater than 0");
+
+        uint256 requestId = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, _description));
+        serviceRequests[requestId] = ServiceRequest({
+            requester: msg.sender,
+            description: _description,
+            price: _price,
+            assignedProvider: address(0),
+            completed: false
+        });
+
+        emit ServiceRequestCreated(requestId, msg.sender, _description, _price);
+    }
+
+    // Function for a service provider to accept a service request
+    function acceptServiceRequest(uint256 _requestId) public {
+        ServiceRequest storage request = serviceRequests[_requestId];
+        require(request.requester != address(0), "Service request does not exist");
+        require(request.assignedProvider == address(0), "Service request is already assigned");
+
+        request.assignedProvider = msg.sender;
+
+        emit ServiceRequestAssigned(_requestId, msg.sender);
+    }
+
+    // Function to mark a service request as completed and make payment
+    function completeServiceRequest(uint256 _requestId) public payable {
+        ServiceRequest storage request = serviceRequests[_requestId];
+        require(request.requester == msg.sender, "Only the requester can complete the service");
+        require(!request.completed, "Service request is already completed");
+
+        request.completed = true;
+
+        // Transfer payment to the assigned provider
+        require(msg.value >= request.price, "Insufficient payment");
+        payable(request.assignedProvider).transfer(request.price);
+
+        emit ServiceRequestCompleted(_requestId);
+    }
+}
